@@ -20,7 +20,7 @@ Define table
                     .build()
 ```
 
-Here we define table with 10 columns of different types, 32 - is a `pageSize` (table capacity is a multiple of page size) initial table capacity (in rows), column names are not necessary and provided just for convenience.
+Here we define table with 10 columns of different types, 32 - is a `pageSize` (table capacity is a multiple of page size), column names are not necessary and provided just for convenience.
 
 And fill it...
 ```java
