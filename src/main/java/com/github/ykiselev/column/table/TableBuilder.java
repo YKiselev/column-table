@@ -47,14 +47,14 @@ public final class TableBuilder {
         return this;
     }
 
-    public Table build() {
+    public GrowingTable build() {
         final GrowingColumn[] columns = new GrowingColumn[this.definitions.size()];
         int i = 0;
         for (AbstractColumnDefinition definition : this.definitions) {
             columns[i] = definition.createColumn();
             i++;
         }
-        return new SimpleTable(pageSize, columns);
+        return new SimpleGrowingTable(pageSize, columns);
     }
 
 }

@@ -26,9 +26,9 @@ import static org.junit.Assert.*;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public class SimpleTableTest {
+public class SimpleGrowingTableTest {
 
-    private final SomeTable table = new SomeTable(
+    private final SomeGrowingTable table = new SomeGrowingTable(
             new TableBuilder(32)
                     .withColumn(new IntColumnDefinition("id"))
                     .withColumn(new BooleanColumnDefinition("flag"))
@@ -100,7 +100,7 @@ public class SimpleTableTest {
         Assert.assertArrayEquals(new byte[]{1, 2, 3}, table.bytes.getValue(row));
     }
 
-    private static final class SomeTable extends AbstractDelegatingTable {
+    private static final class SomeGrowingTable extends AbstractDelegatingGrowingTable {
 
         private final IntColumn id;
 
@@ -130,18 +130,18 @@ public class SimpleTableTest {
             this.id.setValue(row, value);
         }
 
-        SomeTable(Table table) {
-            super(table);
-            this.id = table.column(0, IntColumn.class);
-            this.flag = table.column(1, BooleanColumn.class);
-            this.bt = table.column(2, ByteColumn.class);
-            this.ch = table.column(3, CharColumn.class);
-            this.sh = table.column(4, ShortColumn.class);
-            this.serial = table.column(5, LongColumn.class);
-            this.flt = table.column(6, FloatColumn.class);
-            this.dbl = table.column(7, DoubleColumn.class);
-            this.s = table.column(8, StringColumn.class);
-            this.bytes = table.column(9, ObjectColumn.class);
+        SomeGrowingTable(GrowingTable growingTable) {
+            super(growingTable);
+            this.id = growingTable.column(0, IntColumn.class);
+            this.flag = growingTable.column(1, BooleanColumn.class);
+            this.bt = growingTable.column(2, ByteColumn.class);
+            this.ch = growingTable.column(3, CharColumn.class);
+            this.sh = growingTable.column(4, ShortColumn.class);
+            this.serial = growingTable.column(5, LongColumn.class);
+            this.flt = growingTable.column(6, FloatColumn.class);
+            this.dbl = growingTable.column(7, DoubleColumn.class);
+            this.s = growingTable.column(8, StringColumn.class);
+            this.bytes = growingTable.column(9, ObjectColumn.class);
         }
     }
 }

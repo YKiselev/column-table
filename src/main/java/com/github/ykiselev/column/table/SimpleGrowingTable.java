@@ -16,50 +16,68 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.Column;
+
+import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public abstract class AbstractDelegatingTable implements Table {
+final class SimpleGrowingTable implements GrowingTable {
 
-    private final Table table;
+    private final GrowingColumn[] columns;
 
-    protected Table table() {
-        return table;
-    }
+    private int capacity;
 
-    protected AbstractDelegatingTable(Table table) {
-        this.table = table;
+    private int rows;
+
+    private final int pageSize;
+
+    SimpleGrowingTable(int pageSize, GrowingColumn... columns) {
+        this.pageSize = pageSize;
+        this.columns = Arrays.copyOf(columns, columns.length);
     }
 
     @Override
     public int columns() {
-        return this.table.columns();
+        return this.columns.length;
     }
 
     @Override
     public int capacity() {
-        return this.table.capacity();
+        return this.capacity;
     }
 
     @Override
     public void capacity(int value) {
-        this.table.capacity(value);
+        if (this.capacity < value) {
+            value = refine(value);
+            for (GrowingColumn column : this.columns) {
+                column.grow(value);
+            }
+            // only if all columns were resized successfully
+            this.capacity = value;
+        }
     }
 
     @Override
     public int rows() {
-        return this.table.rows();
+        return this.rows;
     }
 
     @Override
     public <T extends Column> T column(int column, Class<T> columnClass) {
-        return this.table.column(column, columnClass);
+        return columnClass.cast(this.columns[column]);
+    }
+
+    private int refine(int capacity) {
+        return (int) (this.pageSize * Math.ceil((double) capacity / this.pageSize));
     }
 
     @Override
     public int addRow() {
-        return this.table.addRow();
+        capacity(this.rows + 1);
+        return this.rows++;
     }
 }

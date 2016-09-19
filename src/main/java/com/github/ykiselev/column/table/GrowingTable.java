@@ -21,7 +21,7 @@ import com.github.ykiselev.column.table.columns.Column;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public interface Table {
+public interface GrowingTable {
 
     int columns();
 

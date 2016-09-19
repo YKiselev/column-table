@@ -16,68 +16,50 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.Column;
-
-import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-final class SimpleTable implements Table {
+public abstract class AbstractDelegatingGrowingTable implements GrowingTable {
 
-    private final GrowingColumn[] columns;
+    private final GrowingTable growingTable;
 
-    private int capacity;
+    protected GrowingTable table() {
+        return growingTable;
+    }
 
-    private int rows;
-
-    private final int pageSize;
-
-    SimpleTable(int pageSize, GrowingColumn... columns) {
-        this.pageSize = pageSize;
-        this.columns = Arrays.copyOf(columns, columns.length);
+    protected AbstractDelegatingGrowingTable(GrowingTable growingTable) {
+        this.growingTable = growingTable;
     }
 
     @Override
     public int columns() {
-        return this.columns.length;
+        return this.growingTable.columns();
     }
 
     @Override
     public int capacity() {
-        return this.capacity;
+        return this.growingTable.capacity();
     }
 
     @Override
     public void capacity(int value) {
-        if (this.capacity < value) {
-            value = refine(value);
-            for (GrowingColumn column : this.columns) {
-                column.grow(value);
-            }
-            // only if all columns were resized successfully
-            this.capacity = value;
-        }
+        this.growingTable.capacity(value);
     }
 
     @Override
     public int rows() {
-        return this.rows;
+        return this.growingTable.rows();
     }
 
     @Override
     public <T extends Column> T column(int column, Class<T> columnClass) {
-        return columnClass.cast(this.columns[column]);
-    }
-
-    private int refine(int capacity) {
-        return (int) (this.pageSize * Math.ceil((double) capacity / this.pageSize));
+        return this.growingTable.column(column, columnClass);
     }
 
     @Override
     public int addRow() {
-        capacity(this.rows + 1);
-        return this.rows++;
+        return this.growingTable.addRow();
     }
 }
