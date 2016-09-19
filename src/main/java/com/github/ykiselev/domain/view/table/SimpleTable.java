@@ -45,6 +45,23 @@ final class SimpleTable implements Table {
     }
 
     @Override
+    public int capacity() {
+        return this.capacity;
+    }
+
+    @Override
+    public void capacity(int value) {
+        if (this.capacity < value) {
+            value = refine(value);
+            for (GrowingColumn column : this.columns) {
+                column.grow(value);
+            }
+            // only if all columns were resized successfully
+            this.capacity = value;
+        }
+    }
+
+    @Override
     public int rows() {
         return this.rows;
     }
@@ -58,20 +75,9 @@ final class SimpleTable implements Table {
         return (int) (this.pageSize * Math.ceil((double) capacity / this.pageSize));
     }
 
-    private void ensure(int capacity) {
-        if (this.capacity < capacity) {
-            capacity = refine(capacity);
-            for (GrowingColumn column : this.columns) {
-                column.grow(capacity);
-            }
-            // only if all columns were resized successfully
-            this.capacity = capacity;
-        }
-    }
-
     @Override
     public int addRow() {
-        ensure(this.rows + 1);
+        capacity(this.rows + 1);
         return this.rows++;
     }
 }

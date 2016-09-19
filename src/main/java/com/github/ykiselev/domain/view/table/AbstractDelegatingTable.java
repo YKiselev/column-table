@@ -39,6 +39,16 @@ public abstract class AbstractDelegatingTable implements Table {
     }
 
     @Override
+    public int capacity() {
+        return this.table.capacity();
+    }
+
+    @Override
+    public void capacity(int value) {
+        this.table.capacity(value);
+    }
+
+    @Override
     public int rows() {
         return this.table.rows();
     }

@@ -25,6 +25,10 @@ public interface Table {
 
     int columns();
 
+    int capacity();
+
+    void capacity(int value);
+
     int rows();
 
     <T extends Column> T column(int column, Class<T> columnClass);
