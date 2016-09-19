@@ -84,7 +84,7 @@ For maven projects add dependency to pom.xml
 <dependency>
     <groupId>com.github.ykiselev</groupId>
     <artifactId>column-table</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 </dependency>
 ```
 
