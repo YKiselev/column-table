@@ -32,7 +32,7 @@ public final class ShortColumnDefinition extends AbstractColumnDefinition {
     }
 
     @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn createGrowingColumn() {
         return new GrowingShortColumn();
     }
 

@@ -31,7 +31,7 @@ public abstract class AbstractColumnDefinition {
         return name;
     }
 
-    public abstract GrowingColumn createColumn();
+    public abstract GrowingColumn createGrowingColumn();
 
     protected AbstractColumnDefinition(String name) {
         this.name = name;

@@ -16,12 +16,19 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.column.table.columns.Column;
+
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public interface GrowingTable extends Table {
+public interface Table {
 
-    void capacity(int value);
+    int columns();
 
-    int addRow();
+    int capacity();
+
+    int rows();
+
+    <T extends Column> T column(int column, Class<T> columnClass);
+
 }

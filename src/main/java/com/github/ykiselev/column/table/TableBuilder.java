@@ -51,7 +51,7 @@ public final class TableBuilder {
         final GrowingColumn[] columns = new GrowingColumn[this.definitions.size()];
         int i = 0;
         for (AbstractColumnDefinition definition : this.definitions) {
-            columns[i] = definition.createColumn();
+            columns[i] = definition.createGrowingColumn();
             i++;
         }
         return new SimpleGrowingTable(pageSize, columns);

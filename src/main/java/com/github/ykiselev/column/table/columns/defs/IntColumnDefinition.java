@@ -32,7 +32,7 @@ public final class IntColumnDefinition extends AbstractColumnDefinition {
     }
 
     @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn createGrowingColumn() {
         return new GrowingIntColumn();
     }
 

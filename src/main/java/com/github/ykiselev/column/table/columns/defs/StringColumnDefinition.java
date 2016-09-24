@@ -37,7 +37,7 @@ public final class StringColumnDefinition extends AbstractColumnDefinition {
     }
 
     @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn createGrowingColumn() {
         return new GrowingStringColumn();
     }
 

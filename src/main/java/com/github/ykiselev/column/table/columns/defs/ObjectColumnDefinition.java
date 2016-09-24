@@ -41,13 +41,17 @@ public final class ObjectColumnDefinition<T> extends AbstractColumnDefinition {
     }
 
     @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn createGrowingColumn() {
         return new GrowingObjectColumn();
     }
 
+    /**
+     *
+     */
     private final class GrowingObjectColumn implements GrowingColumn, ObjectColumn<T> {
 
-        private T[] data = (T[]) Array.newInstance(clazz, 0);
+        @SuppressWarnings("unchecked")
+        private T[] data = (T[]) Array.newInstance(ObjectColumnDefinition.this.clazz, 0);
 
         @Override
         public void grow(int capacity) {

@@ -36,7 +36,7 @@ public final class BooleanColumnDefinition extends AbstractColumnDefinition {
     }
 
     @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn createGrowingColumn() {
         return new GrowingBooleanColumn();
     }
 

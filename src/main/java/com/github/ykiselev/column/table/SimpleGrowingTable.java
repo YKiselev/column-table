@@ -34,6 +34,11 @@ final class SimpleGrowingTable implements GrowingTable {
 
     private final int pageSize;
 
+    /**
+     *
+     * @param pageSize the table capacity will be a multiple of this value. Should be positive and greater than zero.
+     * @param columns the table columns
+     */
     SimpleGrowingTable(int pageSize, GrowingColumn... columns) {
         this.pageSize = pageSize;
         this.columns = Arrays.copyOf(columns, columns.length);
