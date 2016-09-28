@@ -1,26 +1,26 @@
 ## Synopsis
 
-This is a library with classes defining in-memory column-oriented growing-only table to be used instead of long-living collections of POJOs (to reduce memory consumption). Has columns for all the primitive types, strings and also generic one (to store arrays for example). Row access is only by index (like in `array index` not `DBMS index`). No fancy stuff like string de-duplication because such functionality is `external` and can be easily added when needed. No queries, no filters. 
+This is a library with classes defining in-memory column-oriented growing-only table to be used instead of long-living collections of POJOs (to reduce memory consumption). Has columns for all the primitive types, strings and also generic one (to store arrays for example). Row access is only by index (like in `array index` not `DBMS index`). No fancy stuff like string de-duplication because such functionality is not related to table internals and can be easily added when needed. No queries, no filters. 
 
 ## Code Example
 
 Define table
 ```java
     Table table = new TableBuilder(32)
-                    .withColumn(new IntColumnDefinition("id"))
-                    .withColumn(new BooleanColumnDefinition("flag"))
-                    .withColumn(new ByteColumnDefinition("bytee"))
-                    .withColumn(new CharColumnDefinition("character"))
-                    .withColumn(new ShortColumnDefinition("shorty"))
-                    .withColumn(new LongColumnDefinition("serial number"))
-                    .withColumn(new FloatColumnDefinition("floaty"))
-                    .withColumn(new DoubleColumnDefinition("double"))
-                    .withColumn(new StringColumnDefinition("name"))
-                    .withColumn(new ObjectColumnDefinition<>("password hash", byte[].class))
+                    .withColumn(new IntColumnDefinition())
+                    .withColumn(new BooleanColumnDefinition())
+                    .withColumn(new ByteColumnDefinition())
+                    .withColumn(new CharColumnDefinition())
+                    .withColumn(new ShortColumnDefinition())
+                    .withColumn(new LongColumnDefinition())
+                    .withColumn(new FloatColumnDefinition())
+                    .withColumn(new DoubleColumnDefinition())
+                    .withColumn(new StringColumnDefinition())
+                    .withColumn(new ObjectColumnDefinition<>(byte[].class))
                     .build()
 ```
 
-Here we define table with 10 columns of different types, 32 - is a `pageSize` (table capacity is a multiple of page size), column names are not necessary and provided just for convenience.
+Here we define table with 10 columns of different types, 32 - is a `pageSize` (table capacity is a multiple of page size).
 
 And fill it...
 ```java
@@ -75,7 +75,7 @@ Then one can use `table.getFlag().setValue(row, true);` instead.
 
 ## Motivation
 
-To decrease memory footprint in cases when one need big long-living collection of POJOs. 
+To decrease memory footprint in (rare) cases when one need big long-living collection of POJOs. 
 
 ## Installation
 
