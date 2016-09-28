@@ -19,12 +19,15 @@ package com.github.ykiselev.column.table.columns.defs;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.ShortColumn;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class ShortColumnDefinition extends AbstractColumnDefinition {
+public final class ShortColumnDefinition implements ColumnDefinition, Serializable {
+
+    private static final long serialVersionUID = 1241473194932966005L;
 
     @Override
     public Class<?> type() {
@@ -36,19 +39,17 @@ public final class ShortColumnDefinition extends AbstractColumnDefinition {
         return new GrowingShortColumn();
     }
 
-    public ShortColumnDefinition(String name) {
-        super(name);
-    }
-
     /**
      *
      */
-    private final class GrowingShortColumn implements GrowingColumn, ShortColumn {
+    private final class GrowingShortColumn implements GrowingColumn, ShortColumn, Serializable {
+
+        private static final long serialVersionUID = -1167094801444725782L;
 
         private short[] data = new short[0];
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return ShortColumnDefinition.this;
         }
 

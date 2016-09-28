@@ -19,16 +19,15 @@ package com.github.ykiselev.column.table.columns.defs;
 import com.github.ykiselev.column.table.columns.BooleanColumn;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
+import java.io.Serializable;
 import java.util.BitSet;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class BooleanColumnDefinition extends AbstractColumnDefinition {
+public final class BooleanColumnDefinition implements ColumnDefinition, Serializable {
 
-    public BooleanColumnDefinition(String name) {
-        super(name);
-    }
+    private static final long serialVersionUID = 2341608870418274605L;
 
     @Override
     public Class<?> type() {
@@ -43,12 +42,14 @@ public final class BooleanColumnDefinition extends AbstractColumnDefinition {
     /**
      *
      */
-    private final class GrowingBooleanColumn implements GrowingColumn, BooleanColumn {
+    private final class GrowingBooleanColumn implements GrowingColumn, BooleanColumn, Serializable {
+
+        private static final long serialVersionUID = -992926317534435923L;
 
         private final BitSet bits = new BitSet();
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return BooleanColumnDefinition.this;
         }
 

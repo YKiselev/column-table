@@ -19,17 +19,16 @@ package com.github.ykiselev.column.table.columns.defs;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.StringColumn;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class StringColumnDefinition extends AbstractColumnDefinition {
+public final class StringColumnDefinition implements ColumnDefinition, Serializable {
 
-    public StringColumnDefinition(String name) {
-        super(name);
-    }
+    private static final long serialVersionUID = -8426448635311377818L;
 
     @Override
     public Class<?> type() {
@@ -41,7 +40,9 @@ public final class StringColumnDefinition extends AbstractColumnDefinition {
         return new GrowingStringColumn();
     }
 
-    private final class GrowingStringColumn implements GrowingColumn, StringColumn {
+    private final class GrowingStringColumn implements GrowingColumn, StringColumn, Serializable {
+
+        private static final long serialVersionUID = -7744077351338636853L;
 
         private String[] data = new String[0];
 
@@ -61,7 +62,7 @@ public final class StringColumnDefinition extends AbstractColumnDefinition {
         }
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return StringColumnDefinition.this;
         }
     }

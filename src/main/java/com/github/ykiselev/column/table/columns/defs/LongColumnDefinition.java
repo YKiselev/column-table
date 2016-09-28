@@ -19,12 +19,15 @@ package com.github.ykiselev.column.table.columns.defs;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.LongColumn;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class LongColumnDefinition extends AbstractColumnDefinition {
+public final class LongColumnDefinition implements ColumnDefinition, Serializable {
+
+    private static final long serialVersionUID = -7458652821191886027L;
 
     @Override
     public Class<?> type() {
@@ -36,19 +39,17 @@ public final class LongColumnDefinition extends AbstractColumnDefinition {
         return new GrowingLongColumn();
     }
 
-    public LongColumnDefinition(String name) {
-        super(name);
-    }
-
     /**
      *
      */
-    private final class GrowingLongColumn implements GrowingColumn, LongColumn {
+    private final class GrowingLongColumn implements GrowingColumn, LongColumn, Serializable {
+
+        private static final long serialVersionUID = -8248841743027153836L;
 
         private long[] data = new long[0];
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return LongColumnDefinition.this;
         }
 

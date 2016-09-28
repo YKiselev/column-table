@@ -19,12 +19,15 @@ package com.github.ykiselev.column.table.columns.defs;
 import com.github.ykiselev.column.table.columns.ByteColumn;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class ByteColumnDefinition extends AbstractColumnDefinition {
+public final class ByteColumnDefinition implements ColumnDefinition, Serializable {
+
+    private static final long serialVersionUID = -6606506721929316548L;
 
     @Override
     public Class<?> type() {
@@ -36,19 +39,17 @@ public final class ByteColumnDefinition extends AbstractColumnDefinition {
         return new GrowingByteColumn();
     }
 
-    public ByteColumnDefinition(String name) {
-        super(name);
-    }
-
     /**
      *
      */
-    private final class GrowingByteColumn implements GrowingColumn, ByteColumn {
+    private final class GrowingByteColumn implements GrowingColumn, ByteColumn, Serializable {
+
+        private static final long serialVersionUID = -6462691810065903496L;
 
         private byte[] data = new byte[0];
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return ByteColumnDefinition.this;
         }
 

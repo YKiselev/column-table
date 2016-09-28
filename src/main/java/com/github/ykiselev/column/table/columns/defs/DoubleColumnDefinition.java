@@ -19,12 +19,15 @@ package com.github.ykiselev.column.table.columns.defs;
 import com.github.ykiselev.column.table.columns.DoubleColumn;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class DoubleColumnDefinition extends AbstractColumnDefinition {
+public final class DoubleColumnDefinition implements ColumnDefinition, Serializable {
+
+    private static final long serialVersionUID = 5352782433631243939L;
 
     @Override
     public Class<?> type() {
@@ -36,19 +39,17 @@ public final class DoubleColumnDefinition extends AbstractColumnDefinition {
         return new GrowingDoubleColumn();
     }
 
-    public DoubleColumnDefinition(String name) {
-        super(name);
-    }
-
     /**
      *
      */
-    private final class GrowingDoubleColumn implements GrowingColumn, DoubleColumn {
+    private final class GrowingDoubleColumn implements GrowingColumn, DoubleColumn, Serializable {
+
+        private static final long serialVersionUID = 6894129003994939790L;
 
         private double[] data = new double[0];
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return DoubleColumnDefinition.this;
         }
 

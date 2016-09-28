@@ -17,7 +17,7 @@
 package com.github.ykiselev.column.table;
 
 import com.github.ykiselev.column.table.columns.GrowingColumn;
-import com.github.ykiselev.column.table.columns.defs.AbstractColumnDefinition;
+import com.github.ykiselev.column.table.columns.defs.ColumnDefinition;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,9 +29,7 @@ import java.util.Set;
  */
 public final class TableBuilder {
 
-    private final Set<String> names = new HashSet<>();
-
-    private final List<AbstractColumnDefinition> definitions = new ArrayList<>();
+    private final List<ColumnDefinition> definitions = new ArrayList<>();
 
     private final int pageSize;
 
@@ -39,10 +37,7 @@ public final class TableBuilder {
         this.pageSize = pageSize;
     }
 
-    public TableBuilder withColumn(AbstractColumnDefinition column) {
-        if (!this.names.add(column.name())) {
-            throw new IllegalArgumentException("Name already in use: " + column.name());
-        }
+    public TableBuilder withColumn(ColumnDefinition column) {
         this.definitions.add(column);
         return this;
     }
@@ -50,7 +45,7 @@ public final class TableBuilder {
     public GrowingTable build() {
         final GrowingColumn[] columns = new GrowingColumn[this.definitions.size()];
         int i = 0;
-        for (AbstractColumnDefinition definition : this.definitions) {
+        for (ColumnDefinition definition : this.definitions) {
             columns[i] = definition.createGrowingColumn();
             i++;
         }

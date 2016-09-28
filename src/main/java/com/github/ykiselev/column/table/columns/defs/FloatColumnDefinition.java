@@ -19,12 +19,15 @@ package com.github.ykiselev.column.table.columns.defs;
 import com.github.ykiselev.column.table.columns.FloatColumn;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class FloatColumnDefinition extends AbstractColumnDefinition {
+public final class FloatColumnDefinition implements ColumnDefinition, Serializable {
+
+    private static final long serialVersionUID = 6673134481696835533L;
 
     @Override
     public Class<?> type() {
@@ -36,19 +39,17 @@ public final class FloatColumnDefinition extends AbstractColumnDefinition {
         return new GrowingFloatColumn();
     }
 
-    public FloatColumnDefinition(String name) {
-        super(name);
-    }
-
     /**
      *
      */
-    private final class GrowingFloatColumn implements GrowingColumn, FloatColumn {
+    private final class GrowingFloatColumn implements GrowingColumn, FloatColumn, Serializable {
+
+        private static final long serialVersionUID = -8091681373683605871L;
 
         private float[] data = new float[0];
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return FloatColumnDefinition.this;
         }
 

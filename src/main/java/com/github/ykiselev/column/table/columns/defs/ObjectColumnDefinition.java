@@ -19,19 +19,23 @@ package com.github.ykiselev.column.table.columns.defs;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.ObjectColumn;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
 
 /**
+ * Instances of column class, created by this definition are serializable if underlying objects are serializable.
+ *
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class ObjectColumnDefinition<T> extends AbstractColumnDefinition {
+public final class ObjectColumnDefinition<T> implements ColumnDefinition, Serializable {
+
+    private static final long serialVersionUID = 2772677974218940720L;
 
     private final Class<T> clazz;
 
-    public ObjectColumnDefinition(String name, Class<T> clazz) {
-        super(name);
+    public ObjectColumnDefinition(Class<T> clazz) {
         this.clazz = clazz;
     }
 
@@ -48,7 +52,9 @@ public final class ObjectColumnDefinition<T> extends AbstractColumnDefinition {
     /**
      *
      */
-    private final class GrowingObjectColumn implements GrowingColumn, ObjectColumn<T> {
+    private final class GrowingObjectColumn implements GrowingColumn, ObjectColumn<T>, Serializable {
+
+        private static final long serialVersionUID = 8754760104479856833L;
 
         @SuppressWarnings("unchecked")
         private T[] data = (T[]) Array.newInstance(ObjectColumnDefinition.this.clazz, 0);
@@ -69,7 +75,7 @@ public final class ObjectColumnDefinition<T> extends AbstractColumnDefinition {
         }
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return ObjectColumnDefinition.this;
         }
     }

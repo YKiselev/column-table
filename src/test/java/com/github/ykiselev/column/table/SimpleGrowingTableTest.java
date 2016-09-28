@@ -21,6 +21,11 @@ import com.github.ykiselev.column.table.columns.defs.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import static org.junit.Assert.*;
 
 /**
@@ -30,16 +35,16 @@ public class SimpleGrowingTableTest {
 
     private final SomeGrowingTable table = new SomeGrowingTable(
             new TableBuilder(32)
-                    .withColumn(new IntColumnDefinition("id"))
-                    .withColumn(new BooleanColumnDefinition("flag"))
-                    .withColumn(new ByteColumnDefinition("bt"))
-                    .withColumn(new CharColumnDefinition("ch"))
-                    .withColumn(new ShortColumnDefinition("sh"))
-                    .withColumn(new LongColumnDefinition("serial"))
-                    .withColumn(new FloatColumnDefinition("flt"))
-                    .withColumn(new DoubleColumnDefinition("dbl"))
-                    .withColumn(new StringColumnDefinition("s"))
-                    .withColumn(new ObjectColumnDefinition<>("bytes", byte[].class))
+                    .withColumn(new IntColumnDefinition())
+                    .withColumn(new BooleanColumnDefinition())
+                    .withColumn(new ByteColumnDefinition())
+                    .withColumn(new CharColumnDefinition())
+                    .withColumn(new ShortColumnDefinition())
+                    .withColumn(new LongColumnDefinition())
+                    .withColumn(new FloatColumnDefinition())
+                    .withColumn(new DoubleColumnDefinition())
+                    .withColumn(new StringColumnDefinition())
+                    .withColumn(new ObjectColumnDefinition<>(byte[].class))
                     .build()
     );
 
@@ -98,6 +103,47 @@ public class SimpleGrowingTableTest {
         assertEquals(Double.MAX_VALUE, table.dbl.getValue(row), 0.001);
         Assert.assertEquals("abcd", table.s.getValue(row));
         Assert.assertArrayEquals(new byte[]{1, 2, 3}, table.bytes.getValue(row));
+    }
+
+    @Test
+    public void shouldSerialize() throws Exception {
+        {
+            final int row = this.table.addRow();
+            this.table.setId(row, 333);
+            this.table.flag.setValue(row, true);
+            this.table.bt.setValue(row, (byte) 127);
+            this.table.ch.setValue(row, 'Z');
+            this.table.sh.setValue(row, Short.MAX_VALUE);
+            this.table.serial.setValue(row, Long.MAX_VALUE);
+            this.table.flt.setValue(row, Float.MAX_VALUE);
+            this.table.dbl.setValue(row, Double.MAX_VALUE);
+            this.table.s.setValue(row, "abcd");
+            this.table.bytes.setValue(row, new byte[]{1, 2, 3});
+        }
+
+        final ByteArrayOutputStream bs = new ByteArrayOutputStream();
+        try (ObjectOutputStream oos = new ObjectOutputStream(bs)) {
+            oos.writeObject(this.table.table());
+        }
+        final byte[] bytes = bs.toByteArray();
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        try (ObjectInputStream ois = new ObjectInputStream(bis)) {
+            final GrowingTable t = (GrowingTable) ois.readObject();
+            final SomeGrowingTable table = new SomeGrowingTable(t);
+            assertEquals(1, table.rows());
+            final int row = 0;
+            assertEquals(333, table.getId(row));
+            assertTrue(table.flag.getValue(row));
+            Assert.assertEquals(127, table.bt.getValue(row));
+            assertEquals('Z', table.ch.getValue(row));
+            Assert.assertEquals(Short.MAX_VALUE, table.sh.getValue(row));
+            assertEquals(Long.MAX_VALUE, table.serial.getValue(row));
+            assertEquals(Float.MAX_VALUE, table.flt.getValue(row), 0.001);
+            assertEquals(Double.MAX_VALUE, table.dbl.getValue(row), 0.001);
+            Assert.assertEquals("abcd", table.s.getValue(row));
+            Assert.assertArrayEquals(new byte[]{1, 2, 3}, table.bytes.getValue(row));
+        }
     }
 
     private static final class SomeGrowingTable extends AbstractDelegatingGrowingTable {

@@ -21,19 +21,9 @@ import com.github.ykiselev.column.table.columns.GrowingColumn;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public abstract class AbstractColumnDefinition {
+public interface ColumnDefinition {
 
-    private final String name;
+    Class<?> type();
 
-    public abstract Class<?> type();
-
-    public String name() {
-        return name;
-    }
-
-    public abstract GrowingColumn createGrowingColumn();
-
-    protected AbstractColumnDefinition(String name) {
-        this.name = name;
-    }
+    GrowingColumn createGrowingColumn();
 }

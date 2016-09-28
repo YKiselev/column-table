@@ -19,12 +19,15 @@ package com.github.ykiselev.column.table;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.Column;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-final class SimpleGrowingTable implements GrowingTable {
+final class SimpleGrowingTable implements GrowingTable, Serializable {
+
+    private static final long serialVersionUID = 4768696390401496922L;
 
     private final GrowingColumn[] columns;
 

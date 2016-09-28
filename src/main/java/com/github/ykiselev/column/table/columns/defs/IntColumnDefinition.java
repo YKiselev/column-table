@@ -19,12 +19,15 @@ package com.github.ykiselev.column.table.columns.defs;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.IntColumn;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class IntColumnDefinition extends AbstractColumnDefinition {
+public final class IntColumnDefinition implements ColumnDefinition, Serializable {
+
+    private static final long serialVersionUID = 6055978684265177054L;
 
     @Override
     public Class<?> type() {
@@ -36,19 +39,17 @@ public final class IntColumnDefinition extends AbstractColumnDefinition {
         return new GrowingIntColumn();
     }
 
-    public IntColumnDefinition(String name) {
-        super(name);
-    }
-
     /**
      *
      */
-    private final class GrowingIntColumn implements GrowingColumn, IntColumn {
+    private final class GrowingIntColumn implements GrowingColumn, IntColumn, Serializable {
+
+        private static final long serialVersionUID = -2237705701576761828L;
 
         private int[] data = new int[0];
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return IntColumnDefinition.this;
         }
 
@@ -67,4 +68,5 @@ public final class IntColumnDefinition extends AbstractColumnDefinition {
             this.data = Arrays.copyOf(this.data, capacity);
         }
     }
+
 }

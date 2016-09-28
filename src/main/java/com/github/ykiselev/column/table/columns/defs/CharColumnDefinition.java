@@ -16,15 +16,18 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
-import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.CharColumn;
+import com.github.ykiselev.column.table.columns.GrowingColumn;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class CharColumnDefinition extends AbstractColumnDefinition {
+public final class CharColumnDefinition implements ColumnDefinition, Serializable {
+
+    private static final long serialVersionUID = -6026368389727806557L;
 
     @Override
     public Class<?> type() {
@@ -36,19 +39,17 @@ public final class CharColumnDefinition extends AbstractColumnDefinition {
         return new GrowingCharColumn();
     }
 
-    public CharColumnDefinition(String name) {
-        super(name);
-    }
-
     /**
      *
      */
-    private final class GrowingCharColumn implements GrowingColumn, CharColumn {
+    private final class GrowingCharColumn implements GrowingColumn, CharColumn, Serializable {
+
+        private static final long serialVersionUID = -3869639984017251755L;
 
         private char[] data = new char[0];
 
         @Override
-        public AbstractColumnDefinition definition() {
+        public ColumnDefinition definition() {
             return CharColumnDefinition.this;
         }
 
