@@ -77,8 +77,8 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
     }
 
     @Override
-    public <T extends Column> T column(int column, Class<T> columnClass) {
-        return columnClass.cast(this.columns[column]);
+    public Column column(int column) {
+        return this.columns[column];
     }
 
     private int refine(int capacity, int oldCapacity) {

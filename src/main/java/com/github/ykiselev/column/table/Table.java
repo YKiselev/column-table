@@ -29,6 +29,6 @@ public interface Table {
 
     int rows();
 
-    <T extends Column> T column(int column, Class<T> columnClass);
+    Column column(int column);
 
 }

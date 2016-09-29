@@ -23,43 +23,43 @@ import com.github.ykiselev.column.table.columns.Column;
  */
 public abstract class AbstractDelegatingGrowingTable implements GrowingTable {
 
-    private final GrowingTable growingTable;
+    private final GrowingTable table;
 
-    protected GrowingTable table() {
-        return growingTable;
+    public GrowingTable table() {
+        return table;
     }
 
-    protected AbstractDelegatingGrowingTable(GrowingTable growingTable) {
-        this.growingTable = growingTable;
+    protected AbstractDelegatingGrowingTable(GrowingTable table) {
+        this.table = table;
     }
 
     @Override
     public int columns() {
-        return this.growingTable.columns();
+        return this.table.columns();
     }
 
     @Override
     public int capacity() {
-        return this.growingTable.capacity();
+        return this.table.capacity();
     }
 
     @Override
     public void capacity(int value) {
-        this.growingTable.capacity(value);
+        this.table.capacity(value);
     }
 
     @Override
     public int rows() {
-        return this.growingTable.rows();
+        return this.table.rows();
     }
 
     @Override
-    public <T extends Column> T column(int column, Class<T> columnClass) {
-        return this.growingTable.column(column, columnClass);
+    public Column column(int column) {
+        return this.table.column(column);
     }
 
     @Override
     public int addRow() {
-        return this.growingTable.addRow();
+        return this.table.addRow();
     }
 }

@@ -68,38 +68,38 @@ public class SimpleGrowingTableTest {
         table.addRow();
         final int row = table.addRow();
 
-        assertEquals(0, table.getId(row));
-        assertFalse(table.flag.getValue(row));
-        Assert.assertEquals(0, table.bt.getValue(row));
-        assertEquals(0, table.ch.getValue(row));
-        Assert.assertEquals(0, table.sh.getValue(row));
-        assertEquals(0, table.serial.getValue(row));
-        assertEquals(0, table.flt.getValue(row), 0.001);
-        assertEquals(0, table.dbl.getValue(row), 0.001);
-        assertNull(table.s.getValue(row));
-        assertNull(table.bytes.getValue(row));
+        assertEquals(0, table.id(row));
+        assertFalse(table.flag(row));
+        Assert.assertEquals(0, table.bt(row));
+        assertEquals(0, table.ch(row));
+        Assert.assertEquals(0, table.sh(row));
+        assertEquals(0, table.serial(row));
+        assertEquals(0, table.flt(row), 0.001);
+        assertEquals(0, table.dbl(row), 0.001);
+        assertNull(table.s(row));
+        assertNull(table.bytes(row));
 
-        table.setId(row, 333);
-        table.flag.setValue(row, true);
-        table.bt.setValue(row, (byte) 127);
-        table.ch.setValue(row, 'Z');
-        table.sh.setValue(row, Short.MAX_VALUE);
-        table.serial.setValue(row, Long.MAX_VALUE);
-        table.flt.setValue(row, Float.MAX_VALUE);
-        table.dbl.setValue(row, Double.MAX_VALUE);
-        table.s.setValue(row, "abcd");
-        table.bytes.setValue(row, new byte[]{1, 2, 3});
+        table.id(row, 333);
+        table.flag(row, true);
+        table.bt(row, (byte) 127);
+        table.ch(row, 'Z');
+        table.sh(row, Short.MAX_VALUE);
+        table.serial(row, Long.MAX_VALUE);
+        table.flt(row, Float.MAX_VALUE);
+        table.dbl(row, Double.MAX_VALUE);
+        table.s(row, "abcd");
+        table.bytes(row, new byte[]{1, 2, 3});
 
-        assertEquals(333, table.getId(row));
-        assertTrue(table.flag.getValue(row));
-        Assert.assertEquals(127, table.bt.getValue(row));
-        assertEquals('Z', table.ch.getValue(row));
-        Assert.assertEquals(Short.MAX_VALUE, table.sh.getValue(row));
-        assertEquals(Long.MAX_VALUE, table.serial.getValue(row));
-        assertEquals(Float.MAX_VALUE, table.flt.getValue(row), 0.001);
-        assertEquals(Double.MAX_VALUE, table.dbl.getValue(row), 0.001);
-        Assert.assertEquals("abcd", table.s.getValue(row));
-        Assert.assertArrayEquals(new byte[]{1, 2, 3}, table.bytes.getValue(row));
+        assertEquals(333, table.id(row));
+        assertTrue(table.flag(row));
+        Assert.assertEquals(127, table.bt(row));
+        assertEquals('Z', table.ch(row));
+        Assert.assertEquals(Short.MAX_VALUE, table.sh(row));
+        assertEquals(Long.MAX_VALUE, table.serial(row));
+        assertEquals(Float.MAX_VALUE, table.flt(row), 0.001);
+        assertEquals(Double.MAX_VALUE, table.dbl(row), 0.001);
+        Assert.assertEquals("abcd", table.s(row));
+        Assert.assertArrayEquals(new byte[]{1, 2, 3}, table.bytes(row));
     }
 
     private byte[] toBytes(Object value) throws IOException {
@@ -119,29 +119,29 @@ public class SimpleGrowingTableTest {
     @Test
     public void shouldSerialize() throws Exception {
         int row = this.table.addRow();
-        this.table.setId(row, 333);
-        this.table.flag.setValue(row, true);
-        this.table.bt.setValue(row, (byte) 127);
-        this.table.ch.setValue(row, 'Z');
-        this.table.sh.setValue(row, Short.MAX_VALUE);
-        this.table.serial.setValue(row, Long.MAX_VALUE);
-        this.table.flt.setValue(row, Float.MAX_VALUE);
-        this.table.dbl.setValue(row, Double.MAX_VALUE);
-        this.table.s.setValue(row, "abcd");
-        this.table.bytes.setValue(row, new byte[]{1, 2, 3});
+        this.table.id(row, 333);
+        this.table.flag(row, true);
+        this.table.bt(row, (byte) 127);
+        this.table.ch(row, 'Z');
+        this.table.sh(row, Short.MAX_VALUE);
+        this.table.serial(row, Long.MAX_VALUE);
+        this.table.flt(row, Float.MAX_VALUE);
+        this.table.dbl(row, Double.MAX_VALUE);
+        this.table.s(row, "abcd");
+        this.table.bytes(row, new byte[]{1, 2, 3});
         final byte[] bytes = toBytes(this.table.table());
         final SomeGrowingTable table = new SomeGrowingTable((GrowingTable) fromBytes(bytes));
         assertEquals(1, table.rows());
-        assertEquals(333, table.getId(row));
-        assertTrue(table.flag.getValue(row));
-        Assert.assertEquals(127, table.bt.getValue(row));
-        assertEquals('Z', table.ch.getValue(row));
-        Assert.assertEquals(Short.MAX_VALUE, table.sh.getValue(row));
-        assertEquals(Long.MAX_VALUE, table.serial.getValue(row));
-        assertEquals(Float.MAX_VALUE, table.flt.getValue(row), 0.001);
-        assertEquals(Double.MAX_VALUE, table.dbl.getValue(row), 0.001);
-        Assert.assertEquals("abcd", table.s.getValue(row));
-        Assert.assertArrayEquals(new byte[]{1, 2, 3}, table.bytes.getValue(row));
+        assertEquals(333, table.id(row));
+        assertTrue(table.flag(row));
+        Assert.assertEquals(127, table.bt(row));
+        assertEquals('Z', table.ch(row));
+        Assert.assertEquals(Short.MAX_VALUE, table.sh(row));
+        assertEquals(Long.MAX_VALUE, table.serial(row));
+        assertEquals(Float.MAX_VALUE, table.flt(row), 0.001);
+        assertEquals(Double.MAX_VALUE, table.dbl(row), 0.001);
+        Assert.assertEquals("abcd", table.s(row));
+        Assert.assertArrayEquals(new byte[]{1, 2, 3}, table.bytes(row));
     }
 
     private static final class SomeGrowingTable extends AbstractDelegatingGrowingTable {
@@ -166,26 +166,99 @@ public class SimpleGrowingTableTest {
 
         private final ObjectColumn<byte[]> bytes;
 
-        int getId(int row) {
-            return this.id.getValue(row);
+        int id(int row) {
+            return id.getValue(row);
         }
 
-        void setId(int row, int value) {
-            this.id.setValue(row, value);
+        void id(int row, int value) {
+            id.setValue(row, value);
         }
 
+        boolean flag(int row) {
+            return flag.getValue(row);
+        }
+
+        void flag(int row, boolean value) {
+            flag.setValue(row, value);
+        }
+
+        byte bt(int row) {
+            return bt.getValue(row);
+        }
+
+        void bt(int row, byte value) {
+            bt.setValue(row, value);
+        }
+
+        char ch(int row) {
+            return ch.getValue(row);
+        }
+
+        void ch(int row, char value) {
+            ch.setValue(row, value);
+        }
+
+        short sh(int row) {
+            return sh.getValue(row);
+        }
+
+        void sh(int row, short value) {
+            sh.setValue(row, value);
+        }
+
+        long serial(int row) {
+            return serial.getValue(row);
+        }
+
+        void serial(int row, long value) {
+            serial.setValue(row, value);
+        }
+
+        float flt(int row) {
+            return flt.getValue(row);
+        }
+
+        void flt(int row, float value) {
+            flt.setValue(row, value);
+        }
+
+        double dbl(int row) {
+            return dbl.getValue(row);
+        }
+
+        void dbl(int row, double value) {
+            dbl.setValue(row, value);
+        }
+
+        String s(int row) {
+            return s.getValue(row);
+        }
+
+        void s(int row, String value) {
+            s.setValue(row, value);
+        }
+
+        byte[] bytes(int row) {
+            return bytes.getValue(row);
+        }
+
+        void bytes(int row, byte[] value) {
+            bytes.setValue(row, value);
+        }
+
+        @SuppressWarnings("unchecked")
         SomeGrowingTable(GrowingTable growingTable) {
             super(growingTable);
-            this.id = growingTable.column(0, IntColumn.class);
-            this.flag = growingTable.column(1, BooleanColumn.class);
-            this.bt = growingTable.column(2, ByteColumn.class);
-            this.ch = growingTable.column(3, CharColumn.class);
-            this.sh = growingTable.column(4, ShortColumn.class);
-            this.serial = growingTable.column(5, LongColumn.class);
-            this.flt = growingTable.column(6, FloatColumn.class);
-            this.dbl = growingTable.column(7, DoubleColumn.class);
-            this.s = growingTable.column(8, StringColumn.class);
-            this.bytes = growingTable.column(9, ObjectColumnDefinition.columnClass(byte[].class));// ObjectColumn.class);
+            this.id = (IntColumn) growingTable.column(0);
+            this.flag = (BooleanColumn) growingTable.column(1);
+            this.bt = (ByteColumn) growingTable.column(2);
+            this.ch = (CharColumn) growingTable.column(3);
+            this.sh = (ShortColumn) growingTable.column(4);
+            this.serial = (LongColumn) growingTable.column(5);
+            this.flt = (FloatColumn) growingTable.column(6);
+            this.dbl = (DoubleColumn) growingTable.column(7);
+            this.s = (StringColumn) growingTable.column(8);
+            this.bytes = (ObjectColumn<byte[]>) growingTable.column(9);
         }
     }
 }
