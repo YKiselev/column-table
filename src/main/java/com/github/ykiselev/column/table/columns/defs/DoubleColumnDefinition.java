@@ -16,6 +16,7 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
+import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.DoubleColumn;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
@@ -42,25 +43,35 @@ public final class DoubleColumnDefinition implements ColumnDefinition<GrowingCol
     /**
      *
      */
-    private final class GrowingDoubleColumn implements GrowingColumn, DoubleColumn, Serializable {
+    private final class GrowingDoubleColumn implements GrowingColumn, Serializable {
 
         private static final long serialVersionUID = 6894129003994939790L;
 
         private double[] data = {};
 
         @Override
+        public Column view() {
+            return new DoubleColumn() {
+                @Override
+                public double getValue(int row) {
+                    return GrowingDoubleColumn.this.data[row];
+                }
+
+                @Override
+                public void setValue(int row, double value) {
+                    GrowingDoubleColumn.this.data[row] = value;
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    return DoubleColumnDefinition.this;
+                }
+            };
+        }
+
+        @Override
         public ColumnDefinition definition() {
             return DoubleColumnDefinition.this;
-        }
-
-        @Override
-        public double getValue(int row) {
-            return this.data[row];
-        }
-
-        @Override
-        public void setValue(int row, double value) {
-            this.data[row] = value;
         }
 
         @Override

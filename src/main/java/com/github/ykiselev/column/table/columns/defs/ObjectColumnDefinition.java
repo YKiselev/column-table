@@ -16,6 +16,7 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
+import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.ObjectColumn;
 
@@ -52,7 +53,7 @@ public final class ObjectColumnDefinition<T> implements ColumnDefinition<Growing
     /**
      *
      */
-    private final class GrowingObjectColumn implements GrowingColumn, ObjectColumn<T>, Serializable {
+    private final class GrowingObjectColumn implements GrowingColumn, Serializable {
 
         private static final long serialVersionUID = 8754760104479856833L;
 
@@ -60,18 +61,28 @@ public final class ObjectColumnDefinition<T> implements ColumnDefinition<Growing
         private T[] data = (T[]) Array.newInstance(ObjectColumnDefinition.this.clazz, 0);
 
         @Override
+        public Column view() {
+            return new ObjectColumn<T>() {
+                @Override
+                public T getValue(int row) {
+                    return GrowingObjectColumn.this.data[row];
+                }
+
+                @Override
+                public void setValue(int row, T value) {
+                    GrowingObjectColumn.this.data[row] = value;
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    return ObjectColumnDefinition.this;
+                }
+            };
+        }
+
+        @Override
         public void grow(int capacity) {
             this.data = Arrays.copyOf(this.data, capacity);
-        }
-
-        @Override
-        public T getValue(int row) {
-            return this.data[row];
-        }
-
-        @Override
-        public void setValue(int row, T value) {
-            this.data[row] = value;
         }
 
         @Override

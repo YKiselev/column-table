@@ -42,7 +42,7 @@ public final class ByteColumnDefinition implements ColumnDefinition<GrowingColum
     /**
      *
      */
-    private final class GrowingByteColumn implements GrowingColumn, ByteColumn, Serializable {
+    private final class GrowingByteColumn implements GrowingColumn<ByteColumn>, Serializable {
 
         private static final long serialVersionUID = -6462691810065903496L;
 
@@ -54,13 +54,23 @@ public final class ByteColumnDefinition implements ColumnDefinition<GrowingColum
         }
 
         @Override
-        public byte getValue(int row) {
-            return this.data[row];
-        }
+        public ByteColumn view() {
+            return new ByteColumn() {
+                @Override
+                public byte getValue(int row) {
+                    return GrowingByteColumn.this.data[row];
+                }
 
-        @Override
-        public void setValue(int row, byte value) {
-            this.data[row] = value;
+                @Override
+                public void setValue(int row, byte value) {
+                    GrowingByteColumn.this.data[row] = value;
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    return ByteColumnDefinition.this;
+                }
+            };
         }
 
         @Override

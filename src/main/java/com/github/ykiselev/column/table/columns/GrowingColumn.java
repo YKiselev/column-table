@@ -19,8 +19,9 @@ package com.github.ykiselev.column.table.columns;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public interface GrowingColumn extends Column {
+public interface GrowingColumn<C extends Column> extends Column {
 
     void grow(int capacity);
 
+    C view();
 }

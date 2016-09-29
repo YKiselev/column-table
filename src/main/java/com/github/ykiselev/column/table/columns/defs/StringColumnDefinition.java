@@ -40,25 +40,38 @@ public final class StringColumnDefinition implements ColumnDefinition<GrowingCol
         return new GrowingStringColumn();
     }
 
-    private final class GrowingStringColumn implements GrowingColumn, StringColumn, Serializable {
+    /**
+     *
+     */
+    private final class GrowingStringColumn implements GrowingColumn<StringColumn>, Serializable {
 
         private static final long serialVersionUID = -7744077351338636853L;
 
         private String[] data = {};
 
         @Override
+        public StringColumn view() {
+            return new StringColumn() {
+                @Override
+                public String getValue(int row) {
+                    return GrowingStringColumn.this.data[row];
+                }
+
+                @Override
+                public void setValue(int row, String value) {
+                    GrowingStringColumn.this.data[row] = value;
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    return StringColumnDefinition.this;
+                }
+            };
+        }
+
+        @Override
         public void grow(int capacity) {
             this.data = Arrays.copyOf(this.data, capacity);
-        }
-
-        @Override
-        public String getValue(int row) {
-            return this.data[row];
-        }
-
-        @Override
-        public void setValue(int row, String value) {
-            this.data[row] = value;
         }
 
         @Override

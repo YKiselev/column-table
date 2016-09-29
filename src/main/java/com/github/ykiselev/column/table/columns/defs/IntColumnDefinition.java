@@ -16,6 +16,7 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
+import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.IntColumn;
 
@@ -42,25 +43,35 @@ public final class IntColumnDefinition implements ColumnDefinition<GrowingColumn
     /**
      *
      */
-    private final class GrowingIntColumn implements GrowingColumn, IntColumn, Serializable {
+    private final class GrowingIntColumn implements GrowingColumn, Serializable {
 
         private static final long serialVersionUID = -2237705701576761828L;
 
         private int[] data = {};
 
         @Override
+        public Column view() {
+            return new IntColumn() {
+                @Override
+                public int getValue(int row) {
+                    return GrowingIntColumn.this.data[row];
+                }
+
+                @Override
+                public void setValue(int row, int value) {
+                    GrowingIntColumn.this.data[row] = value;
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    throw new UnsupportedOperationException("not implemented");
+                }
+            };
+        }
+
+        @Override
         public ColumnDefinition definition() {
             return IntColumnDefinition.this;
-        }
-
-        @Override
-        public int getValue(int row) {
-            return this.data[row];
-        }
-
-        @Override
-        public void setValue(int row, int value) {
-            this.data[row] = value;
         }
 
         @Override

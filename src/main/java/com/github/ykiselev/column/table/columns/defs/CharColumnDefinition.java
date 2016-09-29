@@ -17,6 +17,7 @@
 package com.github.ykiselev.column.table.columns.defs;
 
 import com.github.ykiselev.column.table.columns.CharColumn;
+import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
 import java.io.Serializable;
@@ -42,25 +43,35 @@ public final class CharColumnDefinition implements ColumnDefinition<GrowingColum
     /**
      *
      */
-    private final class GrowingCharColumn implements GrowingColumn, CharColumn, Serializable {
+    private final class GrowingCharColumn implements GrowingColumn, Serializable {
 
         private static final long serialVersionUID = -3869639984017251755L;
 
         private char[] data = {};
 
         @Override
+        public Column view() {
+            return new CharColumn() {
+                @Override
+                public char getValue(int row) {
+                    return GrowingCharColumn.this.data[row];
+                }
+
+                @Override
+                public void setValue(int row, char value) {
+                    GrowingCharColumn.this.data[row] = value;
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    return CharColumnDefinition.this;
+                }
+            };
+        }
+
+        @Override
         public ColumnDefinition definition() {
             return CharColumnDefinition.this;
-        }
-
-        @Override
-        public char getValue(int row) {
-            return this.data[row];
-        }
-
-        @Override
-        public void setValue(int row, char value) {
-            this.data[row] = value;
         }
 
         @Override

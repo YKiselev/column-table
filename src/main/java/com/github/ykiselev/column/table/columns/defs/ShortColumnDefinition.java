@@ -42,25 +42,35 @@ public final class ShortColumnDefinition implements ColumnDefinition<GrowingColu
     /**
      *
      */
-    private final class GrowingShortColumn implements GrowingColumn, ShortColumn, Serializable {
+    private final class GrowingShortColumn implements GrowingColumn<ShortColumn>, Serializable {
 
         private static final long serialVersionUID = -1167094801444725782L;
 
         private short[] data = {};
 
         @Override
+        public ShortColumn view() {
+            return new ShortColumn() {
+                @Override
+                public short getValue(int row) {
+                    return GrowingShortColumn.this.data[row];
+                }
+
+                @Override
+                public void setValue(int row, short value) {
+                    GrowingShortColumn.this.data[row] = value;
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    return ShortColumnDefinition.this;
+                }
+            };
+        }
+
+        @Override
         public ColumnDefinition definition() {
             return ShortColumnDefinition.this;
-        }
-
-        @Override
-        public short getValue(int row) {
-            return this.data[row];
-        }
-
-        @Override
-        public void setValue(int row, short value) {
-            this.data[row] = value;
         }
 
         @Override

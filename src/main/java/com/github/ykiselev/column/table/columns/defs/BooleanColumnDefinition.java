@@ -17,6 +17,7 @@
 package com.github.ykiselev.column.table.columns.defs;
 
 import com.github.ykiselev.column.table.columns.BooleanColumn;
+import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
 import java.io.Serializable;
@@ -42,25 +43,35 @@ public final class BooleanColumnDefinition implements ColumnDefinition<GrowingCo
     /**
      *
      */
-    private final class GrowingBooleanColumn implements GrowingColumn, BooleanColumn, Serializable {
+    private final class GrowingBooleanColumn implements GrowingColumn, Serializable {
 
         private static final long serialVersionUID = -992926317534435923L;
 
         private final BitSet bits = new BitSet();
 
         @Override
+        public Column view() {
+            return new BooleanColumn() {
+                @Override
+                public boolean getValue(int row) {
+                    return GrowingBooleanColumn.this.bits.get(row);
+                }
+
+                @Override
+                public void setValue(int row, boolean value) {
+                    GrowingBooleanColumn.this.bits.set(row, value);
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    return BooleanColumnDefinition.this;
+                }
+            };
+        }
+
+        @Override
         public ColumnDefinition definition() {
             return BooleanColumnDefinition.this;
-        }
-
-        @Override
-        public boolean getValue(int row) {
-            return this.bits.get(row);
-        }
-
-        @Override
-        public void setValue(int row, boolean value) {
-            this.bits.set(row, value);
         }
 
         @Override

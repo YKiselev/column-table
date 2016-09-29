@@ -16,6 +16,7 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
+import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.FloatColumn;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
@@ -42,25 +43,35 @@ public final class FloatColumnDefinition implements ColumnDefinition<GrowingColu
     /**
      *
      */
-    private final class GrowingFloatColumn implements GrowingColumn, FloatColumn, Serializable {
+    private final class GrowingFloatColumn implements GrowingColumn, Serializable {
 
         private static final long serialVersionUID = -8091681373683605871L;
 
         private float[] data = {};
 
         @Override
+        public Column view() {
+            return new FloatColumn() {
+                @Override
+                public float getValue(int row) {
+                    return GrowingFloatColumn.this.data[row];
+                }
+
+                @Override
+                public void setValue(int row, float value) {
+                    GrowingFloatColumn.this.data[row] = value;
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    return FloatColumnDefinition.this;
+                }
+            };
+        }
+
+        @Override
         public ColumnDefinition definition() {
             return FloatColumnDefinition.this;
-        }
-
-        @Override
-        public float getValue(int row) {
-            return this.data[row];
-        }
-
-        @Override
-        public void setValue(int row, float value) {
-            this.data[row] = value;
         }
 
         @Override

@@ -16,6 +16,7 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
+import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.LongColumn;
 
@@ -42,25 +43,35 @@ public final class LongColumnDefinition implements ColumnDefinition<GrowingColum
     /**
      *
      */
-    private final class GrowingLongColumn implements GrowingColumn, LongColumn, Serializable {
+    private final class GrowingLongColumn implements GrowingColumn, Serializable {
 
         private static final long serialVersionUID = -8248841743027153836L;
 
         private long[] data = {};
 
         @Override
+        public Column view() {
+            return new LongColumn() {
+                @Override
+                public long getValue(int row) {
+                    return GrowingLongColumn.this.data[row];
+                }
+
+                @Override
+                public void setValue(int row, long value) {
+                    GrowingLongColumn.this.data[row] = value;
+                }
+
+                @Override
+                public ColumnDefinition definition() {
+                    return LongColumnDefinition.this;
+                }
+            };
+        }
+
+        @Override
         public ColumnDefinition definition() {
             return LongColumnDefinition.this;
-        }
-
-        @Override
-        public long getValue(int row) {
-            return this.data[row];
-        }
-
-        @Override
-        public void setValue(int row, long value) {
-            this.data[row] = value;
         }
 
         @Override
