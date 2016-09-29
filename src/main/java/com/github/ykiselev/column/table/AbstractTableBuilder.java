@@ -14,16 +14,25 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table.columns.defs;
+package com.github.ykiselev.column.table;
 
 import com.github.ykiselev.column.table.columns.Column;
+import com.github.ykiselev.column.table.columns.defs.ColumnDefinition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public interface ColumnDefinition<C extends Column> {
+public abstract class AbstractTableBuilder<T extends Table, C extends Column> {
 
-    Class<?> type();
+    protected final List<ColumnDefinition<C>> definitions = new ArrayList<>();
 
-    C createColumn();
+    public final AbstractTableBuilder<T, C> withColumn(ColumnDefinition<C> column) {
+        this.definitions.add(column);
+        return this;
+    }
+
+    public abstract T build();
 }

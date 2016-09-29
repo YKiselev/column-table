@@ -25,7 +25,7 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class IntColumnDefinition implements ColumnDefinition, Serializable {
+public final class IntColumnDefinition implements ColumnDefinition<GrowingColumn>, Serializable {
 
     private static final long serialVersionUID = 6055978684265177054L;
 
@@ -35,7 +35,7 @@ public final class IntColumnDefinition implements ColumnDefinition, Serializable
     }
 
     @Override
-    public GrowingColumn createGrowingColumn() {
+    public GrowingColumn createColumn() {
         return new GrowingIntColumn();
     }
 

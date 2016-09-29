@@ -19,26 +19,17 @@ package com.github.ykiselev.column.table;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.defs.ColumnDefinition;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class TableBuilder {
+public final class GrowingTableBuilder extends AbstractTableBuilder<GrowingTable, GrowingColumn> {
 
-    private final List<ColumnDefinition> definitions = new ArrayList<>();
-
-    public TableBuilder withColumn(ColumnDefinition column) {
-        this.definitions.add(column);
-        return this;
-    }
-
+    @Override
     public GrowingTable build() {
         final GrowingColumn[] columns = new GrowingColumn[this.definitions.size()];
         int i = 0;
-        for (ColumnDefinition definition : this.definitions) {
-            columns[i] = definition.createGrowingColumn();
+        for (ColumnDefinition<GrowingColumn> definition : this.definitions) {
+            columns[i] = definition.createColumn();
             i++;
         }
         return new SimpleGrowingTable(columns);

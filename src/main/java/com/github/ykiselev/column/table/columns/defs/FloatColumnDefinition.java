@@ -25,7 +25,7 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class FloatColumnDefinition implements ColumnDefinition, Serializable {
+public final class FloatColumnDefinition implements ColumnDefinition<GrowingColumn>, Serializable {
 
     private static final long serialVersionUID = 6673134481696835533L;
 
@@ -35,7 +35,7 @@ public final class FloatColumnDefinition implements ColumnDefinition, Serializab
     }
 
     @Override
-    public GrowingColumn createGrowingColumn() {
+    public GrowingColumn createColumn() {
         return new GrowingFloatColumn();
     }
 

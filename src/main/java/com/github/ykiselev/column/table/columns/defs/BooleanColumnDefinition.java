@@ -25,7 +25,7 @@ import java.util.BitSet;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class BooleanColumnDefinition implements ColumnDefinition, Serializable {
+public final class BooleanColumnDefinition implements ColumnDefinition<GrowingColumn>, Serializable {
 
     private static final long serialVersionUID = 2341608870418274605L;
 
@@ -35,7 +35,7 @@ public final class BooleanColumnDefinition implements ColumnDefinition, Serializ
     }
 
     @Override
-    public GrowingColumn createGrowingColumn() {
+    public GrowingColumn createColumn() {
         return new GrowingBooleanColumn();
     }
 

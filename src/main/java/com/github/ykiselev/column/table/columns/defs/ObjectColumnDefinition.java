@@ -29,7 +29,7 @@ import java.util.Arrays;
  *
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class ObjectColumnDefinition<T> implements ColumnDefinition, Serializable {
+public final class ObjectColumnDefinition<T> implements ColumnDefinition<GrowingColumn>, Serializable {
 
     private static final long serialVersionUID = 2772677974218940720L;
 
@@ -45,7 +45,7 @@ public final class ObjectColumnDefinition<T> implements ColumnDefinition, Serial
     }
 
     @Override
-    public GrowingColumn createGrowingColumn() {
+    public GrowingColumn createColumn() {
         return new GrowingObjectColumn();
     }
 

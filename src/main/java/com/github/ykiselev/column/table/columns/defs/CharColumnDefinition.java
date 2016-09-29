@@ -25,7 +25,7 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class CharColumnDefinition implements ColumnDefinition, Serializable {
+public final class CharColumnDefinition implements ColumnDefinition<GrowingColumn>, Serializable {
 
     private static final long serialVersionUID = -6026368389727806557L;
 
@@ -35,7 +35,7 @@ public final class CharColumnDefinition implements ColumnDefinition, Serializabl
     }
 
     @Override
-    public GrowingColumn createGrowingColumn() {
+    public GrowingColumn createColumn() {
         return new GrowingCharColumn();
     }
 
