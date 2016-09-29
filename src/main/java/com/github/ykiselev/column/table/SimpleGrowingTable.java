@@ -31,6 +31,11 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
 
     private static final int DEFAULT_CAPACITY = 10;
 
+    /**
+     * @see java.util.ArrayList#MAX_ARRAY_SIZE
+     */
+    private static final int MAX_ARRAY_LENGTH = Integer.MAX_VALUE - 8;
+
     private final GrowingColumn[] columns;
 
     private int capacity;
@@ -57,7 +62,7 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
     @Override
     public void capacity(int value) {
         if (this.capacity < value) {
-            value = refine(value);
+            value = refine(value, this.capacity);
             for (GrowingColumn column : this.columns) {
                 column.grow(value);
             }
@@ -76,13 +81,14 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
         return columnClass.cast(this.columns[column]);
     }
 
-    private int refine(int capacity) {
-        int result = capacity + (capacity >> 1);
-        if (result < 0) {
-            result = capacity;
+    private int refine(int capacity, int oldCapacity) {
+        final int minCapacity = Math.max(capacity, DEFAULT_CAPACITY);
+        int result = oldCapacity + (oldCapacity >> 1);
+        if (result - minCapacity < 0) {
+            result = minCapacity;
         }
-        if (result < DEFAULT_CAPACITY) {
-            result = DEFAULT_CAPACITY;
+        if (result - MAX_ARRAY_LENGTH > 0) {
+            result = MAX_ARRAY_LENGTH;
         }
         return result;
     }
