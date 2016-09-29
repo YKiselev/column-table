@@ -70,11 +70,6 @@ public final class DoubleColumnDefinition implements ColumnDefinition<GrowingCol
         }
 
         @Override
-        public ColumnDefinition definition() {
-            return DoubleColumnDefinition.this;
-        }
-
-        @Override
         public void grow(int capacity) {
             this.data = Arrays.copyOf(this.data, capacity);
         }

@@ -16,12 +16,10 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
-import com.github.ykiselev.column.table.columns.Column;
-
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public interface ColumnDefinition<C extends Column> {
+public interface ColumnDefinition<C> {
 
     Class<?> type();
 

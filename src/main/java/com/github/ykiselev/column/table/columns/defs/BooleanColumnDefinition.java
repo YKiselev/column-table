@@ -70,11 +70,6 @@ public final class BooleanColumnDefinition implements ColumnDefinition<GrowingCo
         }
 
         @Override
-        public ColumnDefinition definition() {
-            return BooleanColumnDefinition.this;
-        }
-
-        @Override
         public void grow(int capacity) {
             // no-op
         }

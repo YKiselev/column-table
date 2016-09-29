@@ -84,10 +84,5 @@ public final class ObjectColumnDefinition<T> implements ColumnDefinition<Growing
         public void grow(int capacity) {
             this.data = Arrays.copyOf(this.data, capacity);
         }
-
-        @Override
-        public ColumnDefinition definition() {
-            return ObjectColumnDefinition.this;
-        }
     }
 }

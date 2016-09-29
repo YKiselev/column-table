@@ -70,11 +70,6 @@ public final class LongColumnDefinition implements ColumnDefinition<GrowingColum
         }
 
         @Override
-        public ColumnDefinition definition() {
-            return LongColumnDefinition.this;
-        }
-
-        @Override
         public void grow(int capacity) {
             this.data = Arrays.copyOf(this.data, capacity);
         }

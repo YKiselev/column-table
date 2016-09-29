@@ -73,10 +73,5 @@ public final class StringColumnDefinition implements ColumnDefinition<GrowingCol
         public void grow(int capacity) {
             this.data = Arrays.copyOf(this.data, capacity);
         }
-
-        @Override
-        public ColumnDefinition definition() {
-            return StringColumnDefinition.this;
-        }
     }
 }

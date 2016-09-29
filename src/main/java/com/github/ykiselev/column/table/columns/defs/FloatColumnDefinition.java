@@ -70,11 +70,6 @@ public final class FloatColumnDefinition implements ColumnDefinition<GrowingColu
         }
 
         @Override
-        public ColumnDefinition definition() {
-            return FloatColumnDefinition.this;
-        }
-
-        @Override
         public void grow(int capacity) {
             this.data = Arrays.copyOf(this.data, capacity);
         }

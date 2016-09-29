@@ -70,11 +70,6 @@ public final class CharColumnDefinition implements ColumnDefinition<GrowingColum
         }
 
         @Override
-        public ColumnDefinition definition() {
-            return CharColumnDefinition.this;
-        }
-
-        @Override
         public void grow(int capacity) {
             this.data = Arrays.copyOf(this.data, capacity);
         }

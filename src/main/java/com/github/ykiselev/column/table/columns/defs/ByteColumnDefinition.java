@@ -49,11 +49,6 @@ public final class ByteColumnDefinition implements ColumnDefinition<GrowingColum
         private byte[] data = {};
 
         @Override
-        public ColumnDefinition definition() {
-            return ByteColumnDefinition.this;
-        }
-
-        @Override
         public ByteColumn view() {
             return new ByteColumn() {
                 @Override
