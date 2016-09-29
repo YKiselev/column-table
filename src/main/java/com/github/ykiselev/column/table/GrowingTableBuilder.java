@@ -28,7 +28,7 @@ public final class GrowingTableBuilder extends AbstractTableBuilder<GrowingTable
     public GrowingTable build() {
         final GrowingColumn[] columns = new GrowingColumn[this.definitions.size()];
         int i = 0;
-        for (ColumnDefinition<GrowingColumn> definition : this.definitions) {
+        for (ColumnDefinition<? extends GrowingColumn> definition : this.definitions) {
             columns[i] = definition.createColumn();
             i++;
         }

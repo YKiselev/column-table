@@ -27,9 +27,9 @@ import java.util.List;
  */
 public abstract class AbstractTableBuilder<T extends Table, C extends Column> {
 
-    protected final List<ColumnDefinition<C>> definitions = new ArrayList<>();
+    protected final List<ColumnDefinition<? extends C>> definitions = new ArrayList<>();
 
-    public final AbstractTableBuilder<T, C> withColumn(ColumnDefinition<C> column) {
+    public final AbstractTableBuilder<T, C> withColumn(ColumnDefinition<? extends C> column) {
         this.definitions.add(column);
         return this;
     }
