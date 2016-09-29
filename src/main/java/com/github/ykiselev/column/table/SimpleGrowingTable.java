@@ -29,6 +29,8 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
 
     private static final long serialVersionUID = 4768696390401496922L;
 
+    private static final int DEFAULT_CAPACITY = 10;
+
     private final GrowingColumn[] columns;
 
     private int capacity;
@@ -78,6 +80,9 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
         int result = capacity + (capacity >> 1);
         if (result < 0) {
             result = capacity;
+        }
+        if (result < DEFAULT_CAPACITY) {
+            result = DEFAULT_CAPACITY;
         }
         return result;
     }
