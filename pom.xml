@@ -20,7 +20,7 @@
 
     <groupId>com.github.ykiselev</groupId>
     <artifactId>column-table</artifactId>
-    <version>0.4</version>
+    <version>0.5-SNAPSHOT</version>
 
     <name>column-table</name>
     <description>A simple column-oriented table library</description>
@@ -37,7 +37,7 @@
         <connection>scm:git:https://github.com/YKiselev/column-table.git</connection>
         <developerConnection>scm:git:git@github.com:YKiselev/column-table.git</developerConnection>
         <url>http://github.com/YKiselev/column-table/tree/master</url>
-        <tag>column-table-0.4</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>
