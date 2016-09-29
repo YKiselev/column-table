@@ -49,6 +49,14 @@ public final class ObjectColumnDefinition<T> implements ColumnDefinition, Serial
         return new GrowingObjectColumn();
     }
 
+    @SuppressWarnings("unchecked")
+    public static <I> Class<ObjectColumn<I>> columnClass(Class<I> itemClazz) {
+        abstract class A implements ObjectColumn<I> {
+
+        }
+        return (Class<ObjectColumn<I>>) A.class.getSuperclass();
+    }
+
     /**
      *
      */

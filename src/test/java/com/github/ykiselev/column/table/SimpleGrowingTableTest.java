@@ -185,7 +185,7 @@ public class SimpleGrowingTableTest {
             this.flt = growingTable.column(6, FloatColumn.class);
             this.dbl = growingTable.column(7, DoubleColumn.class);
             this.s = growingTable.column(8, StringColumn.class);
-            this.bytes = growingTable.column(9, ObjectColumn.class);
+            this.bytes = growingTable.column(9, ObjectColumnDefinition.columnClass(byte[].class));// ObjectColumn.class);
         }
     }
 }
