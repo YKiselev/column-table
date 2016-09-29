@@ -46,7 +46,7 @@ public final class LongColumnDefinition implements ColumnDefinition, Serializabl
 
         private static final long serialVersionUID = -8248841743027153836L;
 
-        private long[] data = new long[0];
+        private long[] data = {};
 
         @Override
         public ColumnDefinition definition() {

@@ -46,7 +46,7 @@ public final class CharColumnDefinition implements ColumnDefinition, Serializabl
 
         private static final long serialVersionUID = -3869639984017251755L;
 
-        private char[] data = new char[0];
+        private char[] data = {};
 
         @Override
         public ColumnDefinition definition() {

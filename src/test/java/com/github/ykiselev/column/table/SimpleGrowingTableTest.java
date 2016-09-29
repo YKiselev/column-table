@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 public class SimpleGrowingTableTest {
 
     private final SomeGrowingTable table = new SomeGrowingTable(
-            new TableBuilder(32)
+            new TableBuilder()
                     .withColumn(new IntColumnDefinition())
                     .withColumn(new BooleanColumnDefinition())
                     .withColumn(new ByteColumnDefinition())

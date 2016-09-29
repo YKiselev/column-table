@@ -46,7 +46,7 @@ public final class FloatColumnDefinition implements ColumnDefinition, Serializab
 
         private static final long serialVersionUID = -8091681373683605871L;
 
-        private float[] data = new float[0];
+        private float[] data = {};
 
         @Override
         public ColumnDefinition definition() {

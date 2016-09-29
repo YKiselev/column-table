@@ -16,8 +16,8 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.Column;
+import com.github.ykiselev.column.table.columns.GrowingColumn;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -35,15 +35,10 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
 
     private int rows;
 
-    private final int pageSize;
-
     /**
-     *
-     * @param pageSize the table capacity will be a multiple of this value. Should be positive and greater than zero.
      * @param columns the table columns
      */
-    SimpleGrowingTable(int pageSize, GrowingColumn... columns) {
-        this.pageSize = pageSize;
+    SimpleGrowingTable(GrowingColumn... columns) {
         this.columns = Arrays.copyOf(columns, columns.length);
     }
 
@@ -80,7 +75,11 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
     }
 
     private int refine(int capacity) {
-        return (int) (this.pageSize * Math.ceil((double) capacity / this.pageSize));
+        int result = capacity + (capacity >> 1);
+        if (result < 0) {
+            result = capacity;
+        }
+        return result;
     }
 
     @Override

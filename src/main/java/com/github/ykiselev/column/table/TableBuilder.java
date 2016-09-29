@@ -20,9 +20,7 @@ import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.defs.ColumnDefinition;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
@@ -30,12 +28,6 @@ import java.util.Set;
 public final class TableBuilder {
 
     private final List<ColumnDefinition> definitions = new ArrayList<>();
-
-    private final int pageSize;
-
-    public TableBuilder(int pageSize) {
-        this.pageSize = pageSize;
-    }
 
     public TableBuilder withColumn(ColumnDefinition column) {
         this.definitions.add(column);
@@ -49,7 +41,7 @@ public final class TableBuilder {
             columns[i] = definition.createGrowingColumn();
             i++;
         }
-        return new SimpleGrowingTable(pageSize, columns);
+        return new SimpleGrowingTable(columns);
     }
 
 }

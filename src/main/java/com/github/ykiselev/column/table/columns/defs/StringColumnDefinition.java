@@ -44,7 +44,7 @@ public final class StringColumnDefinition implements ColumnDefinition, Serializa
 
         private static final long serialVersionUID = -7744077351338636853L;
 
-        private String[] data = new String[0];
+        private String[] data = {};
 
         @Override
         public void grow(int capacity) {

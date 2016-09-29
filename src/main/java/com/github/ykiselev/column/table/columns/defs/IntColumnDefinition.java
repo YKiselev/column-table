@@ -46,7 +46,7 @@ public final class IntColumnDefinition implements ColumnDefinition, Serializable
 
         private static final long serialVersionUID = -2237705701576761828L;
 
-        private int[] data = new int[0];
+        private int[] data = {};
 
         @Override
         public ColumnDefinition definition() {

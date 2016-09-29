@@ -46,7 +46,7 @@ public final class DoubleColumnDefinition implements ColumnDefinition, Serializa
 
         private static final long serialVersionUID = 6894129003994939790L;
 
-        private double[] data = new double[0];
+        private double[] data = {};
 
         @Override
         public ColumnDefinition definition() {

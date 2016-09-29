@@ -46,7 +46,7 @@ public final class ShortColumnDefinition implements ColumnDefinition, Serializab
 
         private static final long serialVersionUID = -1167094801444725782L;
 
-        private short[] data = new short[0];
+        private short[] data = {};
 
         @Override
         public ColumnDefinition definition() {

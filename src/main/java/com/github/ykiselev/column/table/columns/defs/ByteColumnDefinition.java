@@ -46,7 +46,7 @@ public final class ByteColumnDefinition implements ColumnDefinition, Serializabl
 
         private static final long serialVersionUID = -6462691810065903496L;
 
-        private byte[] data = new byte[0];
+        private byte[] data = {};
 
         @Override
         public ColumnDefinition definition() {
