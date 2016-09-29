@@ -25,7 +25,7 @@ Here we define table with 10 columns of different types.
 And fill it...
 ```java
     int row = table.addRow();
-    table.column(1, BooleanColumn.class).setValue(row, false);
+    ((BooleanColumn)table.column(1)).setValue(row, false);
 ```
 
 Here we adding new row to the table and then setting cell value (row, 1) to false (1 - is a zero-based column index). Of course it would be more handy to create wrapper class for each table, similar to this:
@@ -163,7 +163,7 @@ For maven projects add dependency to pom.xml
 <dependency>
     <groupId>com.github.ykiselev</groupId>
     <artifactId>column-table</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
 </dependency>
 ```
 
