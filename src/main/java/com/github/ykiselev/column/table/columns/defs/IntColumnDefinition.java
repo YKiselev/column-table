@@ -16,7 +16,6 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
-import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 import com.github.ykiselev.column.table.columns.IntColumn;
 
@@ -26,7 +25,7 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class IntColumnDefinition implements ColumnDefinition<GrowingColumn>, Serializable {
+public final class IntColumnDefinition implements ColumnDefinition<GrowingColumn<IntColumn>>, Serializable {
 
     private static final long serialVersionUID = 6055978684265177054L;
 
@@ -36,37 +35,42 @@ public final class IntColumnDefinition implements ColumnDefinition<GrowingColumn
     }
 
     @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn<IntColumn> createColumn() {
         return new GrowingIntColumn();
     }
 
     /**
      *
      */
-    private final class GrowingIntColumn implements GrowingColumn, Serializable {
+    private final class GrowingIntColumn implements GrowingColumn<IntColumn>, Serializable {
 
         private static final long serialVersionUID = -2237705701576761828L;
 
         private int[] data = {};
 
+        private transient IntColumn view;
+
         @Override
-        public Column view() {
-            return new IntColumn() {
-                @Override
-                public int getValue(int row) {
-                    return GrowingIntColumn.this.data[row];
-                }
+        public IntColumn view() {
+            if (this.view == null) {
+                this.view = new IntColumn() {
+                    @Override
+                    public int getValue(int row) {
+                        return GrowingIntColumn.this.data[row];
+                    }
 
-                @Override
-                public void setValue(int row, int value) {
-                    GrowingIntColumn.this.data[row] = value;
-                }
+                    @Override
+                    public void setValue(int row, int value) {
+                        GrowingIntColumn.this.data[row] = value;
+                    }
 
-                @Override
-                public ColumnDefinition definition() {
-                    throw new UnsupportedOperationException("not implemented");
-                }
-            };
+                    @Override
+                    public ColumnDefinition definition() {
+                        return IntColumnDefinition.this;
+                    }
+                };
+            }
+            return this.view;
         }
 
         @Override

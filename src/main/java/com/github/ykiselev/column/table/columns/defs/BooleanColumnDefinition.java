@@ -49,24 +49,29 @@ public final class BooleanColumnDefinition implements ColumnDefinition<GrowingCo
 
         private final BitSet bits = new BitSet();
 
+        private transient BooleanColumn view;
+
         @Override
         public Column view() {
-            return new BooleanColumn() {
-                @Override
-                public boolean getValue(int row) {
-                    return GrowingBooleanColumn.this.bits.get(row);
-                }
+            if (this.view == null) {
+                this.view = new BooleanColumn() {
+                    @Override
+                    public boolean getValue(int row) {
+                        return GrowingBooleanColumn.this.bits.get(row);
+                    }
 
-                @Override
-                public void setValue(int row, boolean value) {
-                    GrowingBooleanColumn.this.bits.set(row, value);
-                }
+                    @Override
+                    public void setValue(int row, boolean value) {
+                        GrowingBooleanColumn.this.bits.set(row, value);
+                    }
 
-                @Override
-                public ColumnDefinition definition() {
-                    return BooleanColumnDefinition.this;
-                }
-            };
+                    @Override
+                    public ColumnDefinition definition() {
+                        return BooleanColumnDefinition.this;
+                    }
+                };
+            }
+            return this.view;
         }
 
         @Override

@@ -16,7 +16,6 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
-import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.FloatColumn;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
@@ -26,7 +25,7 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class FloatColumnDefinition implements ColumnDefinition<GrowingColumn>, Serializable {
+public final class FloatColumnDefinition implements ColumnDefinition<GrowingColumn<FloatColumn>>, Serializable {
 
     private static final long serialVersionUID = 6673134481696835533L;
 
@@ -36,37 +35,42 @@ public final class FloatColumnDefinition implements ColumnDefinition<GrowingColu
     }
 
     @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn<FloatColumn> createColumn() {
         return new GrowingFloatColumn();
     }
 
     /**
      *
      */
-    private final class GrowingFloatColumn implements GrowingColumn, Serializable {
+    private final class GrowingFloatColumn implements GrowingColumn<FloatColumn>, Serializable {
 
         private static final long serialVersionUID = -8091681373683605871L;
 
         private float[] data = {};
 
+        private transient FloatColumn view;
+
         @Override
-        public Column view() {
-            return new FloatColumn() {
-                @Override
-                public float getValue(int row) {
-                    return GrowingFloatColumn.this.data[row];
-                }
+        public FloatColumn view() {
+            if (this.view == null) {
+                this.view = new FloatColumn() {
+                    @Override
+                    public float getValue(int row) {
+                        return GrowingFloatColumn.this.data[row];
+                    }
 
-                @Override
-                public void setValue(int row, float value) {
-                    GrowingFloatColumn.this.data[row] = value;
-                }
+                    @Override
+                    public void setValue(int row, float value) {
+                        GrowingFloatColumn.this.data[row] = value;
+                    }
 
-                @Override
-                public ColumnDefinition definition() {
-                    return FloatColumnDefinition.this;
-                }
-            };
+                    @Override
+                    public ColumnDefinition definition() {
+                        return FloatColumnDefinition.this;
+                    }
+                };
+            }
+            return this.view;
         }
 
         @Override

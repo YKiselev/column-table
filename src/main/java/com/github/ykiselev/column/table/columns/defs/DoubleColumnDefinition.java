@@ -16,7 +16,6 @@
 
 package com.github.ykiselev.column.table.columns.defs;
 
-import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.DoubleColumn;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
@@ -26,7 +25,7 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class DoubleColumnDefinition implements ColumnDefinition<GrowingColumn>, Serializable {
+public final class DoubleColumnDefinition implements ColumnDefinition<GrowingColumn<DoubleColumn>>, Serializable {
 
     private static final long serialVersionUID = 5352782433631243939L;
 
@@ -36,37 +35,42 @@ public final class DoubleColumnDefinition implements ColumnDefinition<GrowingCol
     }
 
     @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn<DoubleColumn> createColumn() {
         return new GrowingDoubleColumn();
     }
 
     /**
      *
      */
-    private final class GrowingDoubleColumn implements GrowingColumn, Serializable {
+    private final class GrowingDoubleColumn implements GrowingColumn<DoubleColumn>, Serializable {
 
         private static final long serialVersionUID = 6894129003994939790L;
 
         private double[] data = {};
 
+        private transient DoubleColumn view;
+
         @Override
-        public Column view() {
-            return new DoubleColumn() {
-                @Override
-                public double getValue(int row) {
-                    return GrowingDoubleColumn.this.data[row];
-                }
+        public DoubleColumn view() {
+            if (this.view == null) {
+                this.view = new DoubleColumn() {
+                    @Override
+                    public double getValue(int row) {
+                        return GrowingDoubleColumn.this.data[row];
+                    }
 
-                @Override
-                public void setValue(int row, double value) {
-                    GrowingDoubleColumn.this.data[row] = value;
-                }
+                    @Override
+                    public void setValue(int row, double value) {
+                        GrowingDoubleColumn.this.data[row] = value;
+                    }
 
-                @Override
-                public ColumnDefinition definition() {
-                    return DoubleColumnDefinition.this;
-                }
-            };
+                    @Override
+                    public ColumnDefinition definition() {
+                        return DoubleColumnDefinition.this;
+                    }
+                };
+            }
+            return this.view;
         }
 
         @Override

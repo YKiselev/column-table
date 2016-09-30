@@ -17,7 +17,6 @@
 package com.github.ykiselev.column.table.columns.defs;
 
 import com.github.ykiselev.column.table.columns.CharColumn;
-import com.github.ykiselev.column.table.columns.Column;
 import com.github.ykiselev.column.table.columns.GrowingColumn;
 
 import java.io.Serializable;
@@ -26,7 +25,7 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class CharColumnDefinition implements ColumnDefinition<GrowingColumn>, Serializable {
+public final class CharColumnDefinition implements ColumnDefinition<GrowingColumn<CharColumn>>, Serializable {
 
     private static final long serialVersionUID = -6026368389727806557L;
 
@@ -36,37 +35,42 @@ public final class CharColumnDefinition implements ColumnDefinition<GrowingColum
     }
 
     @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn<CharColumn> createColumn() {
         return new GrowingCharColumn();
     }
 
     /**
      *
      */
-    private final class GrowingCharColumn implements GrowingColumn, Serializable {
+    private final class GrowingCharColumn implements GrowingColumn<CharColumn>, Serializable {
 
         private static final long serialVersionUID = -3869639984017251755L;
 
         private char[] data = {};
 
+        private transient CharColumn view;
+
         @Override
-        public Column view() {
-            return new CharColumn() {
-                @Override
-                public char getValue(int row) {
-                    return GrowingCharColumn.this.data[row];
-                }
+        public CharColumn view() {
+            if (this.view == null) {
+                this.view = new CharColumn() {
+                    @Override
+                    public char getValue(int row) {
+                        return GrowingCharColumn.this.data[row];
+                    }
 
-                @Override
-                public void setValue(int row, char value) {
-                    GrowingCharColumn.this.data[row] = value;
-                }
+                    @Override
+                    public void setValue(int row, char value) {
+                        GrowingCharColumn.this.data[row] = value;
+                    }
 
-                @Override
-                public ColumnDefinition definition() {
-                    return CharColumnDefinition.this;
-                }
-            };
+                    @Override
+                    public ColumnDefinition definition() {
+                        return CharColumnDefinition.this;
+                    }
+                };
+            }
+            return this.view;
         }
 
         @Override

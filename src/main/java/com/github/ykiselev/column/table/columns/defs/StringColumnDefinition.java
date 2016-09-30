@@ -49,24 +49,29 @@ public final class StringColumnDefinition implements ColumnDefinition<GrowingCol
 
         private String[] data = {};
 
+        private transient StringColumn view;
+
         @Override
         public StringColumn view() {
-            return new StringColumn() {
-                @Override
-                public String getValue(int row) {
-                    return GrowingStringColumn.this.data[row];
-                }
+            if (this.view == null) {
+                this.view = new StringColumn() {
+                    @Override
+                    public String getValue(int row) {
+                        return GrowingStringColumn.this.data[row];
+                    }
 
-                @Override
-                public void setValue(int row, String value) {
-                    GrowingStringColumn.this.data[row] = value;
-                }
+                    @Override
+                    public void setValue(int row, String value) {
+                        GrowingStringColumn.this.data[row] = value;
+                    }
 
-                @Override
-                public ColumnDefinition definition() {
-                    return StringColumnDefinition.this;
-                }
-            };
+                    @Override
+                    public ColumnDefinition definition() {
+                        return StringColumnDefinition.this;
+                    }
+                };
+            }
+            return this.view;
         }
 
         @Override
