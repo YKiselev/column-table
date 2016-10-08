@@ -26,52 +26,36 @@ import java.util.BitSet;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class BooleanColumnDefinition implements ColumnDefinition<GrowingColumn>, Serializable {
-
-    private static final long serialVersionUID = 2341608870418274605L;
+public final class BooleanColumnFactory implements ColumnFactory<GrowingColumn> {
 
     @Override
-    public Class<?> type() {
-        return boolean.class;
-    }
-
-    @Override
-    public GrowingColumn createColumn() {
+    public GrowingColumn create() {
         return new GrowingBooleanColumn();
     }
 
     /**
      *
      */
-    private final class GrowingBooleanColumn implements GrowingColumn, Serializable {
+    private final static class GrowingBooleanColumn implements GrowingColumn, Serializable {
 
         private static final long serialVersionUID = -992926317534435923L;
 
         private final BitSet bits = new BitSet();
 
-        private transient BooleanColumn view;
-
         @Override
         public Column view() {
-            if (this.view == null) {
-                this.view = new BooleanColumn() {
-                    @Override
-                    public boolean getValue(int row) {
-                        return GrowingBooleanColumn.this.bits.get(row);
-                    }
+            return new BooleanColumn() {
+                @Override
+                public boolean getValue(int row) {
+                    return GrowingBooleanColumn.this.bits.get(row);
+                }
 
-                    @Override
-                    public void setValue(int row, boolean value) {
-                        GrowingBooleanColumn.this.bits.set(row, value);
-                    }
+                @Override
+                public void setValue(int row, boolean value) {
+                    GrowingBooleanColumn.this.bits.set(row, value);
+                }
 
-                    @Override
-                    public ColumnDefinition definition() {
-                        return BooleanColumnDefinition.this;
-                    }
-                };
-            }
-            return this.view;
+            };
         }
 
         @Override

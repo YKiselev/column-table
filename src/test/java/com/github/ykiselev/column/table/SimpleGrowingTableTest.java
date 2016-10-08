@@ -32,16 +32,16 @@ public class SimpleGrowingTableTest {
 
     private final SomeGrowingTable table = new SomeGrowingTable(
             new GrowingTableBuilder()
-                    .withColumn(new IntColumnDefinition())
-                    .withColumn(new BooleanColumnDefinition())
-                    .withColumn(new ByteColumnDefinition())
-                    .withColumn(new CharColumnDefinition())
-                    .withColumn(new ShortColumnDefinition())
-                    .withColumn(new LongColumnDefinition())
-                    .withColumn(new FloatColumnDefinition())
-                    .withColumn(new DoubleColumnDefinition())
-                    .withColumn(new StringColumnDefinition())
-                    .withColumn(new ObjectColumnDefinition<>(byte[].class))
+                    .withColumn(new IntColumnFactory())
+                    .withColumn(new BooleanColumnFactory())
+                    .withColumn(new ByteColumnFactory())
+                    .withColumn(new CharColumnFactory())
+                    .withColumn(new ShortColumnFactory())
+                    .withColumn(new LongColumnFactory())
+                    .withColumn(new FloatColumnFactory())
+                    .withColumn(new DoubleColumnFactory())
+                    .withColumn(new StringColumnFactory())
+                    .withColumn(new ObjectColumnFactory<>(byte[].class))
                     .build()
     );
 

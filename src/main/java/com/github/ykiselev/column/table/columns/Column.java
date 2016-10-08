@@ -16,13 +16,9 @@
 
 package com.github.ykiselev.column.table.columns;
 
-import com.github.ykiselev.column.table.columns.defs.ColumnDefinition;
-
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
 public interface Column {
-
-    ColumnDefinition definition();
 
 }

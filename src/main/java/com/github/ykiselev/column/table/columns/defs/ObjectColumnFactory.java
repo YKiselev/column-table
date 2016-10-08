@@ -29,59 +29,47 @@ import java.util.Arrays;
  *
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class ObjectColumnDefinition<T> implements ColumnDefinition<GrowingColumn<ObjectColumn<T>>>, Serializable {
-
-    private static final long serialVersionUID = 2772677974218940720L;
+public final class ObjectColumnFactory<T> implements ColumnFactory<GrowingColumn<ObjectColumn<T>>> {
 
     private final Class<T> clazz;
 
-    public ObjectColumnDefinition(Class<T> clazz) {
+    public ObjectColumnFactory(Class<T> clazz) {
         this.clazz = clazz;
     }
 
     @Override
-    public Class<?> type() {
-        return this.clazz;
-    }
-
-    @Override
-    public GrowingColumn<ObjectColumn<T>> createColumn() {
-        return new GrowingObjectColumn();
+    public GrowingColumn<ObjectColumn<T>> create() {
+        return new GrowingObjectColumn<>(this.clazz);
     }
 
     /**
      *
      */
-    private final class GrowingObjectColumn implements GrowingColumn<ObjectColumn<T>>, Serializable {
+    private final static class GrowingObjectColumn<T> implements GrowingColumn<ObjectColumn<T>>, Serializable {
 
         private static final long serialVersionUID = 8754760104479856833L;
 
-        @SuppressWarnings("unchecked")
-        private T[] data = (T[]) Array.newInstance(ObjectColumnDefinition.this.clazz, 0);
+        private T[] data;
 
-        private transient ObjectColumn<T> view;
+        @SuppressWarnings("unchecked")
+        private GrowingObjectColumn(Class<T> clazz) {
+            this.data = (T[]) Array.newInstance(clazz, 0);
+        }
 
         @Override
         public ObjectColumn<T> view() {
-            if (this.view == null) {
-                this.view = new ObjectColumn<T>() {
-                    @Override
-                    public T getValue(int row) {
-                        return GrowingObjectColumn.this.data[row];
-                    }
+            return new ObjectColumn<T>() {
+                @Override
+                public T getValue(int row) {
+                    return GrowingObjectColumn.this.data[row];
+                }
 
-                    @Override
-                    public void setValue(int row, T value) {
-                        GrowingObjectColumn.this.data[row] = value;
-                    }
+                @Override
+                public void setValue(int row, T value) {
+                    GrowingObjectColumn.this.data[row] = value;
+                }
 
-                    @Override
-                    public ColumnDefinition definition() {
-                        return ObjectColumnDefinition.this;
-                    }
-                };
-            }
-            return this.view;
+            };
         }
 
         @Override

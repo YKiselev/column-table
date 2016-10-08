@@ -16,8 +16,7 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.column.table.columns.Column;
-import com.github.ykiselev.column.table.columns.defs.ColumnDefinition;
+import com.github.ykiselev.column.table.columns.defs.ColumnFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +26,9 @@ import java.util.List;
  */
 public abstract class AbstractTableBuilder<T extends Table, C> {
 
-    protected final List<ColumnDefinition<? extends C>> definitions = new ArrayList<>();
+    protected final List<ColumnFactory<? extends C>> definitions = new ArrayList<>();
 
-    public final AbstractTableBuilder<T, C> withColumn(ColumnDefinition<? extends C> column) {
+    public final AbstractTableBuilder<T, C> withColumn(ColumnFactory<? extends C> column) {
         this.definitions.add(column);
         return this;
     }

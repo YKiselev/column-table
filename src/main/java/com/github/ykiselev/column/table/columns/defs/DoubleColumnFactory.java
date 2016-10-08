@@ -25,52 +25,36 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class DoubleColumnDefinition implements ColumnDefinition<GrowingColumn<DoubleColumn>>, Serializable {
-
-    private static final long serialVersionUID = 5352782433631243939L;
+public final class DoubleColumnFactory implements ColumnFactory<GrowingColumn<DoubleColumn>> {
 
     @Override
-    public Class<?> type() {
-        return byte.class;
-    }
-
-    @Override
-    public GrowingColumn<DoubleColumn> createColumn() {
+    public GrowingColumn<DoubleColumn> create() {
         return new GrowingDoubleColumn();
     }
 
     /**
      *
      */
-    private final class GrowingDoubleColumn implements GrowingColumn<DoubleColumn>, Serializable {
+    private final static class GrowingDoubleColumn implements GrowingColumn<DoubleColumn>, Serializable {
 
         private static final long serialVersionUID = 6894129003994939790L;
 
         private double[] data = {};
 
-        private transient DoubleColumn view;
-
         @Override
         public DoubleColumn view() {
-            if (this.view == null) {
-                this.view = new DoubleColumn() {
-                    @Override
-                    public double getValue(int row) {
-                        return GrowingDoubleColumn.this.data[row];
-                    }
+            return new DoubleColumn() {
+                @Override
+                public double getValue(int row) {
+                    return GrowingDoubleColumn.this.data[row];
+                }
 
-                    @Override
-                    public void setValue(int row, double value) {
-                        GrowingDoubleColumn.this.data[row] = value;
-                    }
+                @Override
+                public void setValue(int row, double value) {
+                    GrowingDoubleColumn.this.data[row] = value;
+                }
 
-                    @Override
-                    public ColumnDefinition definition() {
-                        return DoubleColumnDefinition.this;
-                    }
-                };
-            }
-            return this.view;
+            };
         }
 
         @Override

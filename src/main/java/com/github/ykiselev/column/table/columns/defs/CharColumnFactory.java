@@ -25,52 +25,36 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class CharColumnDefinition implements ColumnDefinition<GrowingColumn<CharColumn>>, Serializable {
-
-    private static final long serialVersionUID = -6026368389727806557L;
+public final class CharColumnFactory implements ColumnFactory<GrowingColumn<CharColumn>> {
 
     @Override
-    public Class<?> type() {
-        return char.class;
-    }
-
-    @Override
-    public GrowingColumn<CharColumn> createColumn() {
+    public GrowingColumn<CharColumn> create() {
         return new GrowingCharColumn();
     }
 
     /**
      *
      */
-    private final class GrowingCharColumn implements GrowingColumn<CharColumn>, Serializable {
+    private final static class GrowingCharColumn implements GrowingColumn<CharColumn>, Serializable {
 
         private static final long serialVersionUID = -3869639984017251755L;
 
         private char[] data = {};
 
-        private transient CharColumn view;
-
         @Override
         public CharColumn view() {
-            if (this.view == null) {
-                this.view = new CharColumn() {
-                    @Override
-                    public char getValue(int row) {
-                        return GrowingCharColumn.this.data[row];
-                    }
+            return new CharColumn() {
+                @Override
+                public char getValue(int row) {
+                    return GrowingCharColumn.this.data[row];
+                }
 
-                    @Override
-                    public void setValue(int row, char value) {
-                        GrowingCharColumn.this.data[row] = value;
-                    }
+                @Override
+                public void setValue(int row, char value) {
+                    GrowingCharColumn.this.data[row] = value;
+                }
 
-                    @Override
-                    public ColumnDefinition definition() {
-                        return CharColumnDefinition.this;
-                    }
-                };
-            }
-            return this.view;
+            };
         }
 
         @Override

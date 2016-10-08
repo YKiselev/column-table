@@ -17,7 +17,7 @@
 package com.github.ykiselev.column.table;
 
 import com.github.ykiselev.column.table.columns.GrowingColumn;
-import com.github.ykiselev.column.table.columns.defs.ColumnDefinition;
+import com.github.ykiselev.column.table.columns.defs.ColumnFactory;
 
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
@@ -28,8 +28,8 @@ public final class GrowingTableBuilder extends AbstractTableBuilder<GrowingTable
     public GrowingTable build() {
         final GrowingColumn[] columns = new GrowingColumn[this.definitions.size()];
         int i = 0;
-        for (ColumnDefinition<? extends GrowingColumn> definition : this.definitions) {
-            columns[i] = definition.createColumn();
+        for (ColumnFactory<? extends GrowingColumn> definition : this.definitions) {
+            columns[i] = definition.create();
             i++;
         }
         return new SimpleGrowingTable(columns);

@@ -19,9 +19,7 @@ package com.github.ykiselev.column.table.columns.defs;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public interface ColumnDefinition<C> {
+public interface ColumnFactory<C> {
 
-    Class<?> type();
-
-    C createColumn();
+    C create();
 }

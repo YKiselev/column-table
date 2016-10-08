@@ -25,52 +25,36 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class IntColumnDefinition implements ColumnDefinition<GrowingColumn<IntColumn>>, Serializable {
-
-    private static final long serialVersionUID = 6055978684265177054L;
+public final class IntColumnFactory implements ColumnFactory<GrowingColumn<IntColumn>> {
 
     @Override
-    public Class<?> type() {
-        return int.class;
-    }
-
-    @Override
-    public GrowingColumn<IntColumn> createColumn() {
+    public GrowingColumn<IntColumn> create() {
         return new GrowingIntColumn();
     }
 
     /**
      *
      */
-    private final class GrowingIntColumn implements GrowingColumn<IntColumn>, Serializable {
+    private final static class GrowingIntColumn implements GrowingColumn<IntColumn>, Serializable {
 
         private static final long serialVersionUID = -2237705701576761828L;
 
         private int[] data = {};
 
-        private transient IntColumn view;
-
         @Override
         public IntColumn view() {
-            if (this.view == null) {
-                this.view = new IntColumn() {
-                    @Override
-                    public int getValue(int row) {
-                        return GrowingIntColumn.this.data[row];
-                    }
+            return new IntColumn() {
+                @Override
+                public int getValue(int row) {
+                    return GrowingIntColumn.this.data[row];
+                }
 
-                    @Override
-                    public void setValue(int row, int value) {
-                        GrowingIntColumn.this.data[row] = value;
-                    }
+                @Override
+                public void setValue(int row, int value) {
+                    GrowingIntColumn.this.data[row] = value;
+                }
 
-                    @Override
-                    public ColumnDefinition definition() {
-                        return IntColumnDefinition.this;
-                    }
-                };
-            }
-            return this.view;
+            };
         }
 
         @Override

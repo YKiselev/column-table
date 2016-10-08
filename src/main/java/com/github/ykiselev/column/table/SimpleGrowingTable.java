@@ -38,6 +38,8 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
 
     private final GrowingColumn[] columns;
 
+    private transient Column[] views;
+
     private int capacity;
 
     private int rows;
@@ -78,7 +80,15 @@ final class SimpleGrowingTable implements GrowingTable, Serializable {
 
     @Override
     public Column column(int column) {
-        return this.columns[column].view();
+        if (this.views == null) {
+            this.views = new Column[this.columns.length];
+        }
+        Column result = this.views[column];
+        if (result == null) {
+            result = this.columns[column].view();
+            this.views[column] = result;
+        }
+        return result;
     }
 
     private int refine(int capacity, int oldCapacity) {

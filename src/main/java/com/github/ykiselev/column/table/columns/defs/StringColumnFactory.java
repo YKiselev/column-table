@@ -26,52 +26,36 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class StringColumnDefinition implements ColumnDefinition<GrowingColumn<StringColumn>>, Serializable {
-
-    private static final long serialVersionUID = -8426448635311377818L;
+public final class StringColumnFactory implements ColumnFactory<GrowingColumn<StringColumn>> {
 
     @Override
-    public Class<?> type() {
-        return String.class;
-    }
-
-    @Override
-    public GrowingColumn<StringColumn> createColumn() {
+    public GrowingColumn<StringColumn> create() {
         return new GrowingStringColumn();
     }
 
     /**
      *
      */
-    private final class GrowingStringColumn implements GrowingColumn<StringColumn>, Serializable {
+    private final static class GrowingStringColumn implements GrowingColumn<StringColumn>, Serializable {
 
         private static final long serialVersionUID = -7744077351338636853L;
 
         private String[] data = {};
 
-        private transient StringColumn view;
-
         @Override
         public StringColumn view() {
-            if (this.view == null) {
-                this.view = new StringColumn() {
-                    @Override
-                    public String getValue(int row) {
-                        return GrowingStringColumn.this.data[row];
-                    }
+            return new StringColumn() {
+                @Override
+                public String getValue(int row) {
+                    return GrowingStringColumn.this.data[row];
+                }
 
-                    @Override
-                    public void setValue(int row, String value) {
-                        GrowingStringColumn.this.data[row] = value;
-                    }
+                @Override
+                public void setValue(int row, String value) {
+                    GrowingStringColumn.this.data[row] = value;
+                }
 
-                    @Override
-                    public ColumnDefinition definition() {
-                        return StringColumnDefinition.this;
-                    }
-                };
-            }
-            return this.view;
+            };
         }
 
         @Override

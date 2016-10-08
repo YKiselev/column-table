@@ -25,52 +25,36 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev uze@yandex.ru.
  */
-public final class FloatColumnDefinition implements ColumnDefinition<GrowingColumn<FloatColumn>>, Serializable {
-
-    private static final long serialVersionUID = 6673134481696835533L;
+public final class FloatColumnFactory implements ColumnFactory<GrowingColumn<FloatColumn>> {
 
     @Override
-    public Class<?> type() {
-        return float.class;
-    }
-
-    @Override
-    public GrowingColumn<FloatColumn> createColumn() {
+    public GrowingColumn<FloatColumn> create() {
         return new GrowingFloatColumn();
     }
 
     /**
      *
      */
-    private final class GrowingFloatColumn implements GrowingColumn<FloatColumn>, Serializable {
+    private final static class GrowingFloatColumn implements GrowingColumn<FloatColumn>, Serializable {
 
         private static final long serialVersionUID = -8091681373683605871L;
 
         private float[] data = {};
 
-        private transient FloatColumn view;
-
         @Override
         public FloatColumn view() {
-            if (this.view == null) {
-                this.view = new FloatColumn() {
-                    @Override
-                    public float getValue(int row) {
-                        return GrowingFloatColumn.this.data[row];
-                    }
+            return new FloatColumn() {
+                @Override
+                public float getValue(int row) {
+                    return GrowingFloatColumn.this.data[row];
+                }
 
-                    @Override
-                    public void setValue(int row, float value) {
-                        GrowingFloatColumn.this.data[row] = value;
-                    }
+                @Override
+                public void setValue(int row, float value) {
+                    GrowingFloatColumn.this.data[row] = value;
+                }
 
-                    @Override
-                    public ColumnDefinition definition() {
-                        return FloatColumnDefinition.this;
-                    }
-                };
-            }
-            return this.view;
+            };
         }
 
         @Override
