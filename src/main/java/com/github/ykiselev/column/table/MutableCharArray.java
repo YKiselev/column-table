@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table.columns;
+package com.github.ykiselev.column.table;
+
+import java.util.Arrays;
 
 /**
- * @author Yuriy Kiselev uze@yandex.ru.
+ * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public interface StringColumn extends Column {
+public final class MutableCharArray extends MutableArray {
 
-    String getValue(int row);
+    private char[] array;
 
-    void setValue(int row, String value);
+    @Override
+    void capacity(int capacity) {
+        this.array = Arrays.copyOf(array, capacity);
+    }
+
+    public char get(int index) {
+        return array[index];
+    }
+
+    public void set(int index, char value) {
+        array[index] = value;
+    }
+
 }

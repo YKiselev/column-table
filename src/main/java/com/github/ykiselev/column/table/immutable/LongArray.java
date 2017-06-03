@@ -14,29 +14,33 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table;
+package com.github.ykiselev.column.table.immutable;
 
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class Table {
+public final class LongArray {
 
-    private final MutableArray[] columns;
+    private final long[] array;
 
-    public Table(MutableArray[] columns) {
-        this.columns = Arrays.copyOf(columns, columns.length);
+    /**
+     * Primary ctor.
+     *
+     * @param array  the source array to copy data from
+     * @param start  the index in source array to start copy from
+     * @param length the length of range to copy
+     */
+    public LongArray(long[] array, int start, int length) {
+        this.array = Arrays.copyOfRange(array, start, length);
     }
 
-    public void capacity(int capacity) {
-        for (MutableArray column : columns) {
-            column.capacity(capacity);
-        }
+    public LongArray(long[] array) {
+        this(array, 0, array.length);
     }
 
-    public <T> T column(int index, Class<T> clazz) {
-        return clazz.cast(columns[index]);
+    public long get(int index) {
+        return array[index];
     }
-
 }

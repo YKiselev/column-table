@@ -14,24 +14,26 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table;
+package com.github.ykiselev;
 
-import com.github.ykiselev.column.table.columns.defs.ColumnFactory;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
 
 /**
- * @author Yuriy Kiselev uze@yandex.ru.
+ * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public abstract class AbstractTableBuilder<T extends Table, C> {
+public final class Bytes {
 
-    protected final List<ColumnFactory<? extends C>> definitions = new ArrayList<>();
-
-    public final AbstractTableBuilder<T, C> withColumn(ColumnFactory<? extends C> column) {
-        this.definitions.add(column);
-        return this;
+    public static byte[] to(Object value) throws IOException {
+        final ByteArrayOutputStream bs = new ByteArrayOutputStream();
+        try (ObjectOutputStream oos = new ObjectOutputStream(bs)) {
+            oos.writeObject(value);
+        }
+        return bs.toByteArray();
     }
 
-    public abstract T build();
+    public static Object from(byte[] raw) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(raw))) {
+            return ois.readObject();
+        }
+    }
 }

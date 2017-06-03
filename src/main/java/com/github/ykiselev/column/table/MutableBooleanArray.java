@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table.columns;
+package com.github.ykiselev.column.table;
+
+import java.util.BitSet;
 
 /**
- * @author Yuriy Kiselev uze@yandex.ru.
+ * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public interface DoubleColumn extends Column {
+public final class MutableBooleanArray extends MutableArray {
 
-    double getValue(int row);
+    private final BitSet bits = new BitSet();
 
-    void setValue(int row, double value);
+    @Override
+    void capacity(int capacity) {
+        // no-op
+    }
+
+    public boolean get(int index) {
+        return bits.get(index);
+    }
+
+    public void set(int index, boolean value) {
+        bits.set(index, value);
+    }
+
 }

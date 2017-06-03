@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table.columns;
+package com.github.ykiselev.column.table;
+
+import java.util.Arrays;
 
 /**
- * @author Yuriy Kiselev uze@yandex.ru.
+ * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public interface ByteColumn extends Column {
+public final class MutableDoubleArray extends MutableArray {
 
-    byte getValue(int row);
+    private double[] array;
 
-    void setValue(int row, byte value);
+    @Override
+    void capacity(int capacity) {
+        this.array = Arrays.copyOf(array, capacity);
+    }
+
+    public double get(int index) {
+        return array[index];
+    }
+
+    public void set(int index, double value) {
+        array[index] = value;
+    }
+
 }

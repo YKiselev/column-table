@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table.columns;
+package com.github.ykiselev.column.table;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
- * @author Yuriy Kiselev uze@yandex.ru.
+ * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public interface BooleanColumn extends Column {
+public class MutableBooleanArrayTest {
 
-    boolean getValue(int row);
+    @Test
+    public void shouldStore() throws Exception {
+        final MutableBooleanArray array = new MutableBooleanArray();
 
-    void setValue(int row, boolean value);
+        assertFalse(array.get(10));
+        array.set(10, true);
+        assertTrue(array.get(10));
+
+        assertFalse(array.get(100));
+        array.set(100, true);
+        assertTrue(array.get(100));
+    }
 }

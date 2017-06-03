@@ -17,11 +17,10 @@
 package com.github.ykiselev.column.table;
 
 /**
- * @author Yuriy Kiselev uze@yandex.ru.
+ * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public interface GrowingTable extends Table {
+abstract class MutableArray {
 
-    void capacity(int value);
+    abstract void capacity(int value);
 
-    int addRow();
 }

@@ -14,12 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table.columns.defs;
+package com.github.ykiselev.column.table;
+
+import java.util.Arrays;
 
 /**
- * @author Yuriy Kiselev uze@yandex.ru.
+ * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public interface ColumnFactory<C> {
+public final class MutableObjectArray<T> extends MutableArray {
 
-    C create();
+    private T[] array;
+
+    @Override
+    void capacity(int capacity) {
+        this.array = Arrays.copyOf(array, capacity);
+    }
+
+    public T get(int index) {
+        return array[index];
+    }
+
+    public void set(int index, T value) {
+        array[index] = value;
+    }
+
 }

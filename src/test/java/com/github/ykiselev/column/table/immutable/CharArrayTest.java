@@ -14,29 +14,31 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table;
+package com.github.ykiselev.column.table.immutable;
 
-import java.util.Arrays;
+import com.github.ykiselev.Bytes;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class Table {
+public class CharArrayTest {
 
-    private final MutableArray[] columns;
-
-    public Table(MutableArray[] columns) {
-        this.columns = Arrays.copyOf(columns, columns.length);
+    @Test
+    public void shouldConstruct() throws Exception {
+        final CharArray array = new CharArray(new char[]{'a', 'b', 'c'});
+        assertEquals('a', array.get(0));
+        assertEquals('b', array.get(1));
+        assertEquals('c', array.get(2));
     }
 
-    public void capacity(int capacity) {
-        for (MutableArray column : columns) {
-            column.capacity(capacity);
-        }
+    @Test
+    public void shouldSerialize() throws Exception {
+        final CharArray array = new CharArray(
+                new char[]{'a', 'b', 'c'}
+        );
+        assertEquals(array, Bytes.from(Bytes.to(array)));
     }
-
-    public <T> T column(int index, Class<T> clazz) {
-        return clazz.cast(columns[index]);
-    }
-
 }

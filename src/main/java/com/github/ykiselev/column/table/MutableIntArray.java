@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table.columns;
+package com.github.ykiselev.column.table;
+
+import java.util.Arrays;
 
 /**
- * @author Yuriy Kiselev uze@yandex.ru.
+ * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public interface FloatColumn extends Column {
+public final class MutableIntArray extends MutableArray {
 
-    float getValue(int row);
+    private int[] array;
 
-    void setValue(int row, float value);
+    @Override
+    void capacity(int capacity) {
+        this.array = Arrays.copyOf(array, capacity);
+    }
+
+    public int get(int index) {
+        return array[index];
+    }
+
+    public void set(int index, int value) {
+        array[index] = value;
+    }
+
 }

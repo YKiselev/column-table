@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table.columns;
+package com.github.ykiselev.column.table;
+
+import java.util.Arrays;
 
 /**
- * @author Yuriy Kiselev uze@yandex.ru.
+ * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public interface GrowingColumn<C extends Column> {
+public final class MutableShortArray extends MutableArray {
 
-    void grow(int capacity);
+    private short[] array;
 
-    C view();
+    @Override
+    void capacity(int capacity) {
+        this.array = Arrays.copyOf(array, capacity);
+    }
+
+    public short get(int index) {
+        return array[index];
+    }
+
+    public void set(int index, short value) {
+        array[index] = value;
+    }
+
 }
