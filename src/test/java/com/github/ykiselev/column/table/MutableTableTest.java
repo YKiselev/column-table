@@ -16,21 +16,50 @@
 
 package com.github.ykiselev.column.table;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
 public class MutableTableTest {
 
+    private final MutableTable table = new MutableTable(
+            new MutableIntArray(),
+            new MutableDoubleArray()
+    );
+
+    @Before
+    public void setUp() throws Exception {
+        table.capacity(3);
+    }
+
     @Test
     public void shouldResizeAllColumns() throws Exception {
-        final MutableTable table = new MutableTable(
-                new MutableIntArray(),
-                new MutableDoubleArray()
-        );
-        table.capacity(3);
         table.column(0, MutableIntArray.class).set(2, 1);
         table.column(1, MutableDoubleArray.class).set(2, 3.0);
     }
+
+    @Test
+    public void shouldAddRow() throws Exception {
+        assertEquals(0, table.add());
+        assertEquals(1, table.add());
+        assertEquals(2, table.add());
+        assertEquals(3, table.add());
+        assertTrue(table.capacity() > 3);
+    }
+
+    @Test
+    public void shouldTrimRows() throws Exception {
+        assertEquals(0, table.add());
+        assertEquals(1, table.add());
+        assertEquals(2, table.add());
+        assertEquals(3, table.rows());
+        table.capacity(1);
+        assertEquals(1, table.rows());
+    }
+
 }

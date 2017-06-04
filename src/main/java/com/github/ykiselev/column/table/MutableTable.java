@@ -25,13 +25,32 @@ public final class MutableTable {
 
     private final MutableArray[] columns;
 
+    private int capacity;
+
+    private int rows;
+
+    public int capacity() {
+        return capacity;
+    }
+
+    public int rows() {
+        return rows;
+    }
+
     public MutableTable(MutableArray... columns) {
         this.columns = Arrays.copyOf(columns, columns.length);
     }
 
     public void capacity(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Should be greater than zero!");
+        }
         for (MutableArray column : columns) {
             column.capacity(capacity);
+        }
+        this.capacity = capacity;
+        if (capacity < rows) {
+            rows = capacity;
         }
     }
 
@@ -39,4 +58,11 @@ public final class MutableTable {
         return clazz.cast(columns[index]);
     }
 
+    public int add() {
+        rows++;
+        if (rows > capacity) {
+            capacity(capacity * 2);
+        }
+        return rows - 1;
+    }
 }
