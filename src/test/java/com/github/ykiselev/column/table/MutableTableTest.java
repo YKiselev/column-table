@@ -16,26 +16,21 @@
 
 package com.github.ykiselev.column.table;
 
-import java.util.Arrays;
+import org.junit.Test;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableIntArray extends MutableArray {
+public class MutableTableTest {
 
-    private int[] array = new int[]{};
-
-    @Override
-    void capacity(int capacity) {
-        this.array = Arrays.copyOf(array, capacity);
+    @Test
+    public void shouldResizeAllColumns() throws Exception {
+        final MutableTable table = new MutableTable(
+                new MutableIntArray(),
+                new MutableDoubleArray()
+        );
+        table.capacity(3);
+        table.column(0, MutableIntArray.class).set(2, 1);
+        table.column(1, MutableDoubleArray.class).set(2, 3.0);
     }
-
-    public int get(int index) {
-        return array[index];
-    }
-
-    public void set(int index, int value) {
-        array[index] = value;
-    }
-
 }

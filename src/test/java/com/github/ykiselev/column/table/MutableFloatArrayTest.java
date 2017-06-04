@@ -16,26 +16,32 @@
 
 package com.github.ykiselev.column.table;
 
-import java.util.Arrays;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableIntArray extends MutableArray {
+public class MutableFloatArrayTest {
 
-    private int[] array = new int[]{};
+    @Test
+    public void shouldStore() throws Exception {
+        final MutableFloatArray array = new MutableFloatArray();
 
-    @Override
-    void capacity(int capacity) {
-        this.array = Arrays.copyOf(array, capacity);
-    }
+        array.capacity(3);
 
-    public int get(int index) {
-        return array[index];
-    }
+        assertEquals(0, array.get(0), 0.000001);
+        assertEquals(0, array.get(1), 0.000001);
+        assertEquals(0, array.get(2), 0.000001);
 
-    public void set(int index, int value) {
-        array[index] = value;
+        array.set(0, 1f);
+        array.set(1, 2f);
+        array.set(2, 3f);
+
+        assertEquals(1f, array.get(0), 0.000001);
+        assertEquals(2f, array.get(1), 0.000001);
+        assertEquals(3f, array.get(2), 0.000001);
     }
 
 }

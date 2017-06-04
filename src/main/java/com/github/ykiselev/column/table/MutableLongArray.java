@@ -23,7 +23,7 @@ import java.util.Arrays;
  */
 public final class MutableLongArray extends MutableArray {
 
-    private long[] array;
+    private long[] array = new long[]{};
 
     @Override
     void capacity(int capacity) {

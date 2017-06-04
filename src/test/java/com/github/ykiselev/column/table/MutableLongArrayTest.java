@@ -16,27 +16,32 @@
 
 package com.github.ykiselev.column.table;
 
-import java.util.Arrays;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class Table {
+public class MutableLongArrayTest {
 
-    private final MutableArray[] columns;
+    @Test
+    public void shouldStore() throws Exception {
+        final MutableLongArray array = new MutableLongArray();
 
-    public Table(MutableArray[] columns) {
-        this.columns = Arrays.copyOf(columns, columns.length);
-    }
+        array.capacity(3);
 
-    public void capacity(int capacity) {
-        for (MutableArray column : columns) {
-            column.capacity(capacity);
-        }
-    }
+        assertEquals(0, array.get(0));
+        assertEquals(0, array.get(1));
+        assertEquals(0, array.get(2));
 
-    public <T> T column(int index, Class<T> clazz) {
-        return clazz.cast(columns[index]);
+        array.set(0, 1L);
+        array.set(1, 2L);
+        array.set(2, 3L);
+
+        assertEquals(1L, array.get(0));
+        assertEquals(2L, array.get(1));
+        assertEquals(3L, array.get(2));
     }
 
 }

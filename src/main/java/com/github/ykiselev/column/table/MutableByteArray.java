@@ -23,7 +23,7 @@ import java.util.Arrays;
  */
 public final class MutableByteArray extends MutableArray {
 
-    private byte[] array;
+    private byte[] array = new byte[]{};
 
     @Override
     void capacity(int capacity) {

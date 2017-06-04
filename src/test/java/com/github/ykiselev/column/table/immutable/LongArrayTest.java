@@ -14,28 +14,34 @@
  * limitations under the License.
  */
 
-package com.github.ykiselev.column.table;
+package com.github.ykiselev.column.table.immutable;
 
-import java.util.Arrays;
+import com.github.ykiselev.Bytes;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableIntArray extends MutableArray {
+public class LongArrayTest {
 
-    private int[] array = new int[]{};
-
-    @Override
-    void capacity(int capacity) {
-        this.array = Arrays.copyOf(array, capacity);
+    @Test
+    public void shouldConstructFromArrayOfLongs() throws Exception {
+        assertEquals(
+                123L,
+                new LongArray(
+                        new long[]{123L}
+                ).get(0)
+        );
     }
 
-    public int get(int index) {
-        return array[index];
-    }
-
-    public void set(int index, int value) {
-        array[index] = value;
+    @Test
+    public void shouldSerialize() throws Exception {
+        final LongArray array = new LongArray(
+                new long[]{1L, 2L, 3L}
+        );
+        assertEquals(array, Bytes.from(Bytes.to(array)));
     }
 
 }

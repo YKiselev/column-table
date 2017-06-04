@@ -23,7 +23,7 @@ import java.util.Arrays;
  */
 public final class MutableFloatArray extends MutableArray {
 
-    private float[] array;
+    private float[] array = new float[]{};
 
     @Override
     void capacity(int capacity) {

@@ -23,7 +23,7 @@ import java.util.Arrays;
  */
 public final class MutableCharArray extends MutableArray {
 
-    private char[] array;
+    private char[] array = new char[]{};
 
     @Override
     void capacity(int capacity) {

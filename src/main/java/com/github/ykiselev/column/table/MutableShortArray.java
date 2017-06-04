@@ -23,7 +23,7 @@ import java.util.Arrays;
  */
 public final class MutableShortArray extends MutableArray {
 
-    private short[] array;
+    private short[] array = new short[]{};
 
     @Override
     void capacity(int capacity) {

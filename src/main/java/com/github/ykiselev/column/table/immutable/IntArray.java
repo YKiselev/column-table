@@ -16,12 +16,14 @@
 
 package com.github.ykiselev.column.table.immutable;
 
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class IntArray {
+public final class IntArray implements Serializable {
 
     private final int[] array;
 
@@ -43,4 +45,40 @@ public final class IntArray {
     public int get(int index) {
         return array[index];
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IntArray intArray = (IntArray) o;
+        return Arrays.equals(array, intArray.array);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(array);
+    }
+
+    private Object writeReplace() throws ObjectStreamException {
+        return new Replacement(array);
+    }
+
+    /**
+     * Used to replace outer class during serialization
+     */
+    private static class Replacement implements Serializable {
+
+        private static final long serialVersionUID = 1075622256604844029L;
+
+        private int[] array;
+
+        Replacement(int[] array) {
+            this.array = array;
+        }
+
+        Object readResolve() throws ObjectStreamException {
+            return new IntArray(array);
+        }
+    }
+
 }

@@ -23,7 +23,7 @@ import java.util.Arrays;
  */
 public final class MutableDoubleArray extends MutableArray {
 
-    private double[] array;
+    private double[] array = new double[]{};
 
     @Override
     void capacity(int capacity) {

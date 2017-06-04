@@ -21,21 +21,22 @@ import java.util.Arrays;
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableIntArray extends MutableArray {
+public final class MutableTable {
 
-    private int[] array = new int[]{};
+    private final MutableArray[] columns;
 
-    @Override
-    void capacity(int capacity) {
-        this.array = Arrays.copyOf(array, capacity);
+    public MutableTable(MutableArray... columns) {
+        this.columns = Arrays.copyOf(columns, columns.length);
     }
 
-    public int get(int index) {
-        return array[index];
+    public void capacity(int capacity) {
+        for (MutableArray column : columns) {
+            column.capacity(capacity);
+        }
     }
 
-    public void set(int index, int value) {
-        array[index] = value;
+    public <T> T column(int index, Class<T> clazz) {
+        return clazz.cast(columns[index]);
     }
 
 }

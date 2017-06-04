@@ -16,6 +16,7 @@
 
 package com.github.ykiselev.column.table;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -24,6 +25,11 @@ import java.util.Arrays;
 public final class MutableObjectArray<T> extends MutableArray {
 
     private T[] array;
+
+    @SuppressWarnings("unchecked")
+    public MutableObjectArray(Class<T> clazz) {
+        this.array = (T[]) Array.newInstance(clazz, 0);
+    }
 
     @Override
     void capacity(int capacity) {
