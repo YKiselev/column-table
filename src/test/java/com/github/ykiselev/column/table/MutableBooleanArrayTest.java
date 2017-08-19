@@ -16,20 +16,21 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.Bytes;
+import com.github.ykiselev.column.table.immutable.BooleanArray;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
 public class MutableBooleanArrayTest {
 
+    private final MutableBooleanArray array = new MutableBooleanArray();
+
     @Test
     public void shouldStore() throws Exception {
-        final MutableBooleanArray array = new MutableBooleanArray();
-
         assertFalse(array.get(10));
         array.set(10, true);
         assertTrue(array.get(10));
@@ -38,4 +39,18 @@ public class MutableBooleanArrayTest {
         array.set(100, true);
         assertTrue(array.get(100));
     }
+
+    @Test
+    public void shouldSerialize() throws Exception {
+        array.capacity(3);
+        array.set(0, true);
+        array.set(1, false);
+        array.set(2, true);
+
+        assertEquals(
+                new BooleanArray(new long[]{5L}),
+                Bytes.from(Bytes.to(array))
+        );
+    }
+
 }

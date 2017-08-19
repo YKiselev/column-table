@@ -16,12 +16,18 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.column.table.immutable.BooleanArray;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.BitSet;
 
 /**
+ * Serialization note: this class will serialize to {@link BooleanArray.Replacement} so de-serialization will result in {@link BooleanArray} instance.
+ *
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableBooleanArray extends MutableArray {
+public final class MutableBooleanArray extends MutableArray implements Serializable {
 
     private final BitSet bits = new BitSet();
 
@@ -36,6 +42,10 @@ public final class MutableBooleanArray extends MutableArray {
 
     public void set(int index, boolean value) {
         bits.set(index, value);
+    }
+
+    private Object writeReplace() throws ObjectStreamException {
+        return new BooleanArray.Replacement(bits.toLongArray());
     }
 
 }

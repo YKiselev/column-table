@@ -74,13 +74,13 @@ public final class BooleanArray implements Serializable {
     /**
      * Used to replace outer class during serialization
      */
-    private static class Replacement implements Serializable {
+    public static final class Replacement implements Serializable {
 
         private static final long serialVersionUID = 1075622256604844029L;
 
         private long[] array;
 
-        Replacement(long[] array) {
+        public Replacement(long[] array) {
             this.array = array;
         }
 

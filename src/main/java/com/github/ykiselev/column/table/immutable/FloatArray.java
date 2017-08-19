@@ -66,13 +66,13 @@ public final class FloatArray implements Serializable {
     /**
      * Used to replace outer class during serialization
      */
-    private static class Replacement implements Serializable {
+    public static final class Replacement implements Serializable {
 
         private static final long serialVersionUID = 1075622256604844029L;
 
         private float[] array;
 
-        Replacement(float[] array) {
+        public Replacement(float[] array) {
             this.array = array;
         }
 

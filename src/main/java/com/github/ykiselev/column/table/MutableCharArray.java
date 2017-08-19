@@ -16,12 +16,16 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.column.table.immutable.CharArray;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableCharArray extends MutableArray {
+public final class MutableCharArray extends MutableArray implements Serializable {
 
     private char[] array = new char[]{};
 
@@ -36,6 +40,10 @@ public final class MutableCharArray extends MutableArray {
 
     public void set(int index, char value) {
         array[index] = value;
+    }
+
+    private Object writeReplace() throws ObjectStreamException {
+        return new CharArray.Replacement(array);
     }
 
 }

@@ -66,13 +66,13 @@ public final class ObjectArray<T> implements Serializable {
     /**
      * Used to replace outer class during serialization
      */
-    private static class Replacement<T> implements Serializable {
+    public static final class Replacement<T> implements Serializable {
 
         private static final long serialVersionUID = 1075622256604844029L;
 
         private T[] array;
 
-        Replacement(T[] array) {
+        public Replacement(T[] array) {
             this.array = array;
         }
 

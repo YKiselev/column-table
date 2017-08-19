@@ -16,12 +16,16 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.column.table.immutable.ShortArray;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableShortArray extends MutableArray {
+public final class MutableShortArray extends MutableArray implements Serializable {
 
     private short[] array = new short[]{};
 
@@ -38,4 +42,7 @@ public final class MutableShortArray extends MutableArray {
         array[index] = value;
     }
 
+    private Object writeReplace() throws ObjectStreamException {
+        return new ShortArray.Replacement(array);
+    }
 }

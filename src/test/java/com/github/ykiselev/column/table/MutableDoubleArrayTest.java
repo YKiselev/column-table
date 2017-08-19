@@ -16,6 +16,8 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.Bytes;
+import com.github.ykiselev.column.table.immutable.DoubleArray;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,12 +27,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class MutableDoubleArrayTest {
 
+    private final MutableDoubleArray array = new MutableDoubleArray();
+
     @Test
     public void shouldStore() throws Exception {
-        final MutableDoubleArray array = new MutableDoubleArray();
-
         array.capacity(3);
-
         assertEquals(0, array.get(0), 0.000001);
         assertEquals(0, array.get(1), 0.000001);
         assertEquals(0, array.get(2), 0.000001);
@@ -38,10 +39,23 @@ public class MutableDoubleArrayTest {
         array.set(0, 1.0);
         array.set(1, 2.0);
         array.set(2, 3.0);
-
         assertEquals(1.0, array.get(0), 0.000001);
         assertEquals(2.0, array.get(1), 0.000001);
         assertEquals(3.0, array.get(2), 0.000001);
+    }
+
+    @Test
+    public void shouldSerialize() throws Exception {
+        array.capacity(3);
+        array.set(0, 1.0);
+        array.set(1, 2.0);
+        array.set(2, 3.0);
+        assertEquals(
+                new DoubleArray(
+                        new double[]{1.0, 2.0, 3.0}
+                ),
+                Bytes.from(Bytes.to(array))
+        );
     }
 
 }

@@ -16,6 +16,8 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.Bytes;
+import com.github.ykiselev.column.table.immutable.ObjectArray;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,12 +28,11 @@ import static org.junit.Assert.assertNull;
  */
 public class MutableObjectArrayTest {
 
+    private final MutableObjectArray<String> array = new MutableObjectArray<>(String.class);
+
     @Test
     public void shouldStore() throws Exception {
-        final MutableObjectArray<String> array = new MutableObjectArray<>(String.class);
-
         array.capacity(3);
-
         assertNull(array.get(0));
         assertNull(array.get(1));
         assertNull(array.get(2));
@@ -39,17 +40,33 @@ public class MutableObjectArrayTest {
         array.set(0, "a");
         array.set(1, "b");
         array.set(2, "c");
-
         assertEquals("a", array.get(0));
         assertEquals("b", array.get(1));
         assertEquals("c", array.get(2));
     }
 
     @Test(expected = ArrayStoreException.class)
+    @SuppressWarnings("unchecked")
     public void shouldEnforceType() throws Exception {
         final MutableObjectArray<String> array = new MutableObjectArray<>(String.class);
         array.capacity(1);
         ((MutableObjectArray) array).set(0, 123.0);
+    }
+
+    @Test
+    public void shouldSerialize() throws Exception {
+        array.capacity(2);
+        array.set(0, "a");
+        array.set(1, "b");
+        assertEquals(
+                new ObjectArray<>(
+                        new String[]{
+                                "a",
+                                "b"
+                        }
+                ),
+                Bytes.from(Bytes.to(array))
+        );
     }
 
 }

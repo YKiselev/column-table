@@ -16,12 +16,16 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.column.table.immutable.ByteArray;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableByteArray extends MutableArray {
+public final class MutableByteArray extends MutableArray implements Serializable {
 
     private byte[] array = new byte[]{};
 
@@ -36,6 +40,10 @@ public final class MutableByteArray extends MutableArray {
 
     public void set(int index, byte value) {
         array[index] = value;
+    }
+
+    private Object writeReplace() throws ObjectStreamException {
+        return new ByteArray.Replacement(array);
     }
 
 }

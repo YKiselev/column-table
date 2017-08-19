@@ -66,13 +66,13 @@ public final class DoubleArray implements Serializable {
     /**
      * Used to replace outer class during serialization
      */
-    private static class Replacement implements Serializable {
+    public static final class Replacement implements Serializable {
 
         private static final long serialVersionUID = 1075622256604844029L;
 
         private double[] array;
 
-        Replacement(double[] array) {
+        public Replacement(double[] array) {
             this.array = array;
         }
 

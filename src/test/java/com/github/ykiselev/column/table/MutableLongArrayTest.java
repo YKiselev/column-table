@@ -16,6 +16,8 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.Bytes;
+import com.github.ykiselev.column.table.immutable.LongArray;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,12 +27,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class MutableLongArrayTest {
 
+    private final MutableLongArray array = new MutableLongArray();
+
     @Test
     public void shouldStore() throws Exception {
-        final MutableLongArray array = new MutableLongArray();
-
         array.capacity(3);
-
         assertEquals(0, array.get(0));
         assertEquals(0, array.get(1));
         assertEquals(0, array.get(2));
@@ -38,10 +39,23 @@ public class MutableLongArrayTest {
         array.set(0, 1L);
         array.set(1, 2L);
         array.set(2, 3L);
-
         assertEquals(1L, array.get(0));
         assertEquals(2L, array.get(1));
         assertEquals(3L, array.get(2));
+    }
+
+    @Test
+    public void shouldSerialize() throws Exception {
+        array.capacity(3);
+        array.set(0, 1L);
+        array.set(1, 2L);
+        array.set(2, 3L);
+        assertEquals(
+                new LongArray(
+                        new long[]{1L, 2L, 3L}
+                ),
+                Bytes.from(Bytes.to(array))
+        );
     }
 
 }

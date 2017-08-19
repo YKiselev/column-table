@@ -16,6 +16,8 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.Bytes;
+import com.github.ykiselev.column.table.immutable.ShortArray;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,12 +27,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class MutableShortArrayTest {
 
+    private final MutableShortArray array = new MutableShortArray();
+
     @Test
     public void shouldStore() throws Exception {
-        final MutableShortArray array = new MutableShortArray();
-
         array.capacity(3);
-
         assertEquals(0, array.get(0));
         assertEquals(0, array.get(1));
         assertEquals(0, array.get(2));
@@ -38,10 +39,22 @@ public class MutableShortArrayTest {
         array.set(0, (short) 1);
         array.set(1, (short) 2);
         array.set(2, (short) 3);
-
         assertEquals(1, array.get(0));
         assertEquals(2, array.get(1));
         assertEquals(3, array.get(2));
+    }
+
+    @Test
+    public void shouldSerialize() throws Exception {
+        array.capacity(2);
+        array.set(0, Short.MIN_VALUE);
+        array.set(1, Short.MAX_VALUE);
+        assertEquals(
+                new ShortArray(
+                        new short[]{Short.MIN_VALUE, Short.MAX_VALUE}
+                ),
+                Bytes.from(Bytes.to(array))
+        );
     }
 
 }

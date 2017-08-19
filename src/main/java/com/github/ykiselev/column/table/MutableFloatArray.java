@@ -16,12 +16,16 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.column.table.immutable.FloatArray;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableFloatArray extends MutableArray {
+public final class MutableFloatArray extends MutableArray implements Serializable {
 
     private float[] array = new float[]{};
 
@@ -36,6 +40,10 @@ public final class MutableFloatArray extends MutableArray {
 
     public void set(int index, float value) {
         array[index] = value;
+    }
+
+    private Object writeReplace() throws ObjectStreamException {
+        return new FloatArray.Replacement(array);
     }
 
 }

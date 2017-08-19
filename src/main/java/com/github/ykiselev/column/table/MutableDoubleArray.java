@@ -16,12 +16,16 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.column.table.immutable.DoubleArray;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableDoubleArray extends MutableArray {
+public final class MutableDoubleArray extends MutableArray implements Serializable {
 
     private double[] array = new double[]{};
 
@@ -36,6 +40,10 @@ public final class MutableDoubleArray extends MutableArray {
 
     public void set(int index, double value) {
         array[index] = value;
+    }
+
+    private Object writeReplace() throws ObjectStreamException {
+        return new DoubleArray.Replacement(array);
     }
 
 }

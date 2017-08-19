@@ -16,6 +16,8 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.Bytes;
+import com.github.ykiselev.column.table.immutable.IntArray;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,12 +27,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class MutableIntArrayTest {
 
+    private final MutableIntArray array = new MutableIntArray();
+
     @Test
     public void shouldStore() throws Exception {
-        final MutableIntArray array = new MutableIntArray();
-
         array.capacity(3);
-
         assertEquals(0, array.get(0));
         assertEquals(0, array.get(1));
         assertEquals(0, array.get(2));
@@ -38,10 +39,22 @@ public class MutableIntArrayTest {
         array.set(0, 1);
         array.set(1, 2);
         array.set(2, 3);
-
         assertEquals(1, array.get(0));
         assertEquals(2, array.get(1));
         assertEquals(3, array.get(2));
     }
 
+    @Test
+    public void shouldSerialize() throws Exception {
+        array.capacity(3);
+        array.set(0, 1);
+        array.set(1, 2);
+        array.set(2, 3);
+        assertEquals(
+                new IntArray(
+                        new int[]{1, 2, 3}
+                ),
+                Bytes.from(Bytes.to(array))
+        );
+    }
 }

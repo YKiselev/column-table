@@ -16,21 +16,22 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.Bytes;
+import com.github.ykiselev.column.table.immutable.FloatArray;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
 public class MutableFloatArrayTest {
 
+    private final MutableFloatArray array = new MutableFloatArray();
+
     @Test
     public void shouldStore() throws Exception {
-        final MutableFloatArray array = new MutableFloatArray();
-
         array.capacity(3);
-
         assertEquals(0, array.get(0), 0.000001);
         assertEquals(0, array.get(1), 0.000001);
         assertEquals(0, array.get(2), 0.000001);
@@ -38,10 +39,22 @@ public class MutableFloatArrayTest {
         array.set(0, 1f);
         array.set(1, 2f);
         array.set(2, 3f);
-
         assertEquals(1f, array.get(0), 0.000001);
         assertEquals(2f, array.get(1), 0.000001);
         assertEquals(3f, array.get(2), 0.000001);
     }
 
+    @Test
+    public void shouldSerialize() throws Exception {
+        array.capacity(3);
+        array.set(0, 1f);
+        array.set(1, 2f);
+        array.set(2, 3f);
+        assertEquals(
+                new FloatArray(
+                        new float[]{1f, 2f, 3f}
+                ),
+                Bytes.from(Bytes.to(array))
+        );
+    }
 }
