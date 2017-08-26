@@ -64,7 +64,7 @@ Please e-mail me if you need more info or want to improve something: uze@yandex.
 
 ## Downloads
 
-Download [the lates jar][dl] or
+Download [the latest jar][dl] or
 
 ## License
 
