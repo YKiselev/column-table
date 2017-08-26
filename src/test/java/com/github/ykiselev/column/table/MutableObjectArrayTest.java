@@ -16,10 +16,9 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.Bytes;
-import com.github.ykiselev.column.table.immutable.ObjectArray;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -58,14 +57,12 @@ public class MutableObjectArrayTest {
         array.capacity(2);
         array.set(0, "a");
         array.set(1, "b");
-        assertEquals(
-                new ObjectArray<>(
-                        new String[]{
-                                "a",
-                                "b"
-                        }
-                ),
-                Bytes.from(Bytes.to(array))
+        assertArrayEquals(
+                new String[]{
+                        "a",
+                        "b"
+                },
+                array.toArray(2)
         );
     }
 

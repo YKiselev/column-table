@@ -16,10 +16,9 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.Bytes;
-import com.github.ykiselev.column.table.immutable.ByteArray;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -52,10 +51,9 @@ public class MutableByteArrayTest {
         array.set(0, (byte) 1);
         array.set(1, (byte) 2);
         array.set(2, (byte) 3);
-        assertEquals(
-                new ByteArray(
-                        new byte[]{1, 2, 3}
-                ), Bytes.from(Bytes.to(array))
+        assertArrayEquals(
+                new byte[]{1, 2, 3},
+                array.toArray(3)
         );
     }
 }

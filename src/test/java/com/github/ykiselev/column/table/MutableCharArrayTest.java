@@ -16,10 +16,9 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.Bytes;
-import com.github.ykiselev.column.table.immutable.CharArray;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -50,10 +49,9 @@ public class MutableCharArrayTest {
         array.set(0, 'a');
         array.set(1, 'b');
         array.set(2, 'c');
-        assertEquals(
-                new CharArray(
-                        new char[]{'a', 'b', 'c'}
-                ), Bytes.from(Bytes.to(array))
+        assertArrayEquals(
+                new char[]{'a', 'b', 'c'},
+                array.toArray(3)
         );
     }
 

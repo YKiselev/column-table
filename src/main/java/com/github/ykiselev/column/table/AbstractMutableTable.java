@@ -37,6 +37,11 @@ public abstract class AbstractMutableTable {
 
     protected abstract Iterable<? extends MutableArray> columns();
 
+    /**
+     * Sets capacity (in rows) of all columns in the table
+     *
+     * @param capacity the new capacity to set
+     */
     public final void capacity(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Should be greater than zero!");

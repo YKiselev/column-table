@@ -16,8 +16,13 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.Bytes;
+import com.github.ykiselev.column.table.immutable.LongArray;
+import com.github.ykiselev.column.table.immutable.ObjectArray;
 import org.junit.Test;
 
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -66,13 +71,23 @@ public class AbstractMutableTableTest {
         table.capacity(1);
         assertEquals(1, table.rows());
     }
+
+    @Test
+    public void shouldSerialize() throws Exception {
+        table.add();
+        table.id().set(0, 123);
+        table.name().set(0, "abc");
+        final MyImmutableTable result = (MyImmutableTable) Bytes.from(Bytes.to(table));
+        assertEquals(123, result.id().get(0));
+        assertEquals("abc", result.name().get(0));
+    }
 }
 
-final class MyTable extends AbstractMutableTable {
+final class MyTable extends AbstractMutableTable implements Serializable {
 
-    private final MutableLongArray id = new MutableLongArray();
+    private final MutableLongArray id;
 
-    private final MutableObjectArray<String> name = new MutableObjectArray<>(String.class);
+    private final MutableObjectArray<String> name;
 
     MutableLongArray id() {
         return id;
@@ -82,8 +97,74 @@ final class MyTable extends AbstractMutableTable {
         return name;
     }
 
+    MyTable() {
+        this(new MutableLongArray(), new MutableObjectArray<>(String.class));
+    }
+
+    MyTable(MutableLongArray id, MutableObjectArray<String> name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     protected Iterable<? extends MutableArray> columns() {
         return Arrays.asList(id, name);
+    }
+
+    private Object writeReplace() throws ObjectStreamException {
+        return new MyTableReplacement(
+                rows(),
+                id,
+                name
+        );
+    }
+
+}
+
+final class MyImmutableTable {
+
+    private final int rows;
+
+    private final LongArray id;
+
+    private final ObjectArray<String> name;
+
+    LongArray id() {
+        return id;
+    }
+
+    ObjectArray<String> name() {
+        return name;
+    }
+
+    MyImmutableTable(int rows, LongArray id, ObjectArray<String> name) {
+        this.rows = rows;
+        this.id = id;
+        this.name = name;
+    }
+}
+
+final class MyTableReplacement implements Serializable {
+
+    private static final long serialVersionUID = 4282998382380376807L;
+
+    private int rows;
+
+    private long[] id;
+
+    private String[] name;
+
+    MyTableReplacement(int rows, MutableLongArray id, MutableObjectArray<String> name) {
+        this.rows = rows;
+        this.id = id.toArray(rows);
+        this.name = name.toArray(rows);
+    }
+
+    Object readResolve() throws ObjectStreamException {
+        return new MyImmutableTable(
+                rows,
+                new LongArray(id),
+                new ObjectArray<>(name)
+        );
     }
 }

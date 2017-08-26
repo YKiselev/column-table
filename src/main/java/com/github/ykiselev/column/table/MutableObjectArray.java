@@ -16,17 +16,13 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.column.table.immutable.ObjectArray;
-
-import java.io.ObjectStreamException;
-import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableObjectArray<T> extends MutableArray implements Serializable {
+public final class MutableObjectArray<T> extends MutableArray {
 
     private T[] array;
 
@@ -48,8 +44,8 @@ public final class MutableObjectArray<T> extends MutableArray implements Seriali
         array[index] = value;
     }
 
-    private Object writeReplace() throws ObjectStreamException {
-        return new ObjectArray.Replacement<>(array);
+    public T[] toArray(int length) {
+        return Arrays.copyOf(array, length);
     }
 
 }

@@ -16,10 +16,9 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.Bytes;
-import com.github.ykiselev.column.table.immutable.FloatArray;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -50,11 +49,10 @@ public class MutableFloatArrayTest {
         array.set(0, 1f);
         array.set(1, 2f);
         array.set(2, 3f);
-        assertEquals(
-                new FloatArray(
-                        new float[]{1f, 2f, 3f}
-                ),
-                Bytes.from(Bytes.to(array))
+        assertArrayEquals(
+                new float[]{1f, 2f, 3f},
+                array.toArray(3),
+                0.001f
         );
     }
 }

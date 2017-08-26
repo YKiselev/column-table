@@ -16,10 +16,9 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.Bytes;
-import com.github.ykiselev.column.table.immutable.LongArray;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -50,11 +49,9 @@ public class MutableLongArrayTest {
         array.set(0, 1L);
         array.set(1, 2L);
         array.set(2, 3L);
-        assertEquals(
-                new LongArray(
-                        new long[]{1L, 2L, 3L}
-                ),
-                Bytes.from(Bytes.to(array))
+        assertArrayEquals(
+                new long[]{1L, 2L, 3L},
+                array.toArray(3)
         );
     }
 

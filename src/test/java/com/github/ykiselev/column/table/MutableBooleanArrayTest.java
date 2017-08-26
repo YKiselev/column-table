@@ -16,11 +16,11 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.Bytes;
-import com.github.ykiselev.column.table.immutable.BooleanArray;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
@@ -47,9 +47,9 @@ public class MutableBooleanArrayTest {
         array.set(1, false);
         array.set(2, true);
 
-        assertEquals(
-                new BooleanArray(new long[]{5L}),
-                Bytes.from(Bytes.to(array))
+        assertArrayEquals(
+                new long[]{5L},
+                array.toArray()
         );
     }
 

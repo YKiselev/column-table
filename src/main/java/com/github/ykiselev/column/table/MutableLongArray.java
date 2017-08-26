@@ -16,16 +16,12 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.column.table.immutable.LongArray;
-
-import java.io.ObjectStreamException;
-import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * @author Yuriy Kiselev (uze@yandex.ru).
  */
-public final class MutableLongArray extends MutableArray implements Serializable {
+public final class MutableLongArray extends MutableArray {
 
     private long[] array = new long[]{};
 
@@ -42,8 +38,8 @@ public final class MutableLongArray extends MutableArray implements Serializable
         array[index] = value;
     }
 
-    private Object writeReplace() throws ObjectStreamException {
-        return new LongArray.Replacement(array);
+    public long[] toArray(int length) {
+        return Arrays.copyOf(array, length);
     }
 
 }

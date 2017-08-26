@@ -16,10 +16,9 @@
 
 package com.github.ykiselev.column.table;
 
-import com.github.ykiselev.Bytes;
-import com.github.ykiselev.column.table.immutable.ShortArray;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -49,11 +48,9 @@ public class MutableShortArrayTest {
         array.capacity(2);
         array.set(0, Short.MIN_VALUE);
         array.set(1, Short.MAX_VALUE);
-        assertEquals(
-                new ShortArray(
-                        new short[]{Short.MIN_VALUE, Short.MAX_VALUE}
-                ),
-                Bytes.from(Bytes.to(array))
+        assertArrayEquals(
+                new short[]{Short.MIN_VALUE, Short.MAX_VALUE},
+                array.toArray(2)
         );
     }
 
