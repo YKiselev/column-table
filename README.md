@@ -55,7 +55,7 @@ Javadoc is in repo along with library.
 
 `mvn clean test` 
 or run specific test:
-* com.github.ykiselev.domain.view.SimpleTableTest
+* com.github.ykiselev.column.table.AbstractMutableTableTest
 
 
 ## Contributors
