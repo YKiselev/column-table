@@ -43,7 +43,7 @@ For maven projects add dependency to pom.xml
 <dependency>
     <groupId>com.github.ykiselev</groupId>
     <artifactId>column-table</artifactId>
-    <version>0.4</version>
+    <version>0.5</version>
 </dependency>
 ```
 
