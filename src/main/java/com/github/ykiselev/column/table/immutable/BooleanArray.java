@@ -22,8 +22,7 @@ import java.util.Arrays;
 import java.util.BitSet;
 
 /**
- * Due to using array of long's as internal storage this class will hold n * 64 booleans, where n is the length of internal array.
- * It is user's responsibility to not query values outside actual range of indices.
+ * Boolean array backed by array of longs.
  *
  * @author Yuriy Kiselev (uze@yandex.ru).
  */

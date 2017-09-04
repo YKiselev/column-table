@@ -41,5 +41,4 @@ public final class MutableFloatArray extends MutableArray {
     public float[] toArray(int length) {
         return Arrays.copyOf(array, length);
     }
-
 }

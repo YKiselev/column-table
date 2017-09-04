@@ -17,8 +17,6 @@
 package com.github.ykiselev.column.table;
 
 import com.github.ykiselev.Bytes;
-import com.github.ykiselev.column.table.immutable.LongArray;
-import com.github.ykiselev.column.table.immutable.ObjectArray;
 import org.junit.Test;
 
 import java.io.ObjectStreamException;
@@ -78,8 +76,8 @@ public class AbstractMutableTableTest {
         table.id().set(0, 123);
         table.name().set(0, "abc");
         final MyImmutableTable result = (MyImmutableTable) Bytes.from(Bytes.to(table));
-        assertEquals(123, result.id().get(0));
-        assertEquals("abc", result.name().get(0));
+        assertEquals(123, result.id(0));
+        assertEquals("abc", result.name(0));
     }
 }
 
@@ -123,22 +121,19 @@ final class MyTable extends AbstractMutableTable implements Serializable {
 
 final class MyImmutableTable {
 
-    private final int rows;
+    private final long[] id;
 
-    private final LongArray id;
+    private final String[] name;
 
-    private final ObjectArray<String> name;
-
-    LongArray id() {
-        return id;
+    long id(int index) {
+        return id[index];
     }
 
-    ObjectArray<String> name() {
-        return name;
+    String name(int index) {
+        return name[index];
     }
 
-    MyImmutableTable(int rows, LongArray id, ObjectArray<String> name) {
-        this.rows = rows;
+    MyImmutableTable(long[] id, String[] name) {
         this.id = id;
         this.name = name;
     }
@@ -148,23 +143,19 @@ final class MyTableReplacement implements Serializable {
 
     private static final long serialVersionUID = 4282998382380376807L;
 
-    private int rows;
-
     private long[] id;
 
     private String[] name;
 
     MyTableReplacement(int rows, MutableLongArray id, MutableObjectArray<String> name) {
-        this.rows = rows;
         this.id = id.toArray(rows);
         this.name = name.toArray(rows);
     }
 
     Object readResolve() throws ObjectStreamException {
         return new MyImmutableTable(
-                rows,
-                new LongArray(id),
-                new ObjectArray<>(name)
+                id,
+                name
         );
     }
 }

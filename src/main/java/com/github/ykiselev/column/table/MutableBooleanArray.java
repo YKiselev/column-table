@@ -16,6 +16,8 @@
 
 package com.github.ykiselev.column.table;
 
+import com.github.ykiselev.column.table.immutable.BooleanArray;
+
 import java.util.BitSet;
 
 /**
@@ -40,5 +42,9 @@ public final class MutableBooleanArray extends MutableArray {
 
     public long[] toArray() {
         return bits.toLongArray();
+    }
+
+    public BooleanArray toBooleanArray() {
+        return new BooleanArray(toArray());
     }
 }

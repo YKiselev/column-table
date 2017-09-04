@@ -41,4 +41,5 @@ public final class MutableCharArray extends MutableArray {
     public char[] toArray(int length) {
         return Arrays.copyOf(array, length);
     }
+
 }
